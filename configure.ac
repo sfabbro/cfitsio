@@ -10,6 +10,7 @@ AC_ARG_ENABLE([threads],
    [enable_threads=$enableval],
    [enable_threads=no])
 
+sinclude(ax_pthread.m4)
 AX_PTHREAD(,[enable_threads=no])
 if test x"$enable_threads" != xno; then
     LIBS="$PTHREAD_LIBS $LIBS"
@@ -18,22 +19,21 @@ if test x"$enable_threads" != xno; then
     AC_DEFINE(_REENTRANT)
 fi
 
-AC_PROG_LIBTOOL
-dnl no api version info, so simply copy package version
-SHARED_VERSION_INFO="3:0:0"
-AC_SUBST(SHARED_VERSION_INFO)
-
 AC_PROG_YACC
 AC_PROG_LEX
 
 AC_MSG_CHECKING([whether to enable fortran interface])
-AC_ARG_ENABLE([fortran],
-   [AS_HELP_STRING([--enable-fortran], [Compile the fortran interface [default=yes]])],
-   [ENABLE_FORTRAN=$enableval])
+AC_ARG_ENABLE(fortran,
+    AC_HELP_STRING([--enable-fortran],
+                   [Compile the fortran interface (default=yes)]), 
+		   [enable_forran=$enableval],
+                   [ENABLE_FORTRAN=yes])
 
 case x"$ENABLE_FORTRAN" in
  xno)
     ENABLE_FORTRAN=no
+    # disable fortran libtool checks
+    define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
     AC_MSG_RESULT([no])
     ;;
  *)
@@ -58,6 +58,15 @@ esac
 
 AC_SUBST([ENABLE_FORTRAN])
 AM_CONDITIONAL([ENABLE_FORTRAN], test "x$ENABLE_FORTRAN" = "xyes")
+
+# disable cxx libtool check
+define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
+AC_PROG_LIBTOOL
+dnl no api version info, so simply copy package version
+SHARED_VERSION_INFO="3:0:0"
+AC_SUBST(SHARED_VERSION_INFO)
+
+
 
 case $host in
     *apple*darwin*)
