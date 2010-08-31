@@ -1,7 +1,8 @@
-AC_PREREQ(2.65)
+AC_PREREQ(2.59)
 AC_INIT([cfitsio], [@VERSION@], [pence@tetra.gsfc.nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
 AM_INIT_AUTOMAKE([foreign])
+AC_CANONICAL_HOST
 
 AC_MSG_CHECKING([whether to enable POSIX threads])
 AC_ARG_ENABLE([threads],
@@ -9,7 +10,6 @@ AC_ARG_ENABLE([threads],
    [enable_threads=$enableval],
    [enable_threads=no])
 
-sinclude(ax_pthread.m4)
 AX_PTHREAD(,[enable_threads=no])
 if test x"$enable_threads" != xno; then
     LIBS="$PTHREAD_LIBS $LIBS"
@@ -59,7 +59,6 @@ esac
 AC_SUBST([ENABLE_FORTRAN])
 AM_CONDITIONAL([ENABLE_FORTRAN], test "x$ENABLE_FORTRAN" = "xyes")
 
-AC_CANONICAL_HOST
 case $host in
     *apple*darwin*)
 	dnl may break Absoft compilers
