@@ -26,7 +26,7 @@ AC_MSG_CHECKING([whether to enable fortran interface])
 AC_ARG_ENABLE(fortran,
     AC_HELP_STRING([--enable-fortran],
                    [Compile the fortran interface (default=yes)]), 
-		   [enable_forran=$enableval],
+		   [ENABLE_FORTRAN=$enableval],
                    [ENABLE_FORTRAN=yes])
 
 case x"$ENABLE_FORTRAN" in
