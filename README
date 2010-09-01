@@ -3,9 +3,24 @@ with old ones as well). It adds the following features:
 
 * Shared and static libraries can be both properly configured. This is
  the standard libtool behaviour with all the advantages (static libs
- compiled without PIC, but shared libs yes)
-* allow to compile without fortran easily (--disable-fortran)
-* much more robust globus detection. (--with-gsiftp option)
+ compiled without PIC, but shared libs yes). The upstream cfitsio tar
+ ball will not do this.
+* allow to build cfitsio without fortran easily (--disable-fortran)
+* much more robust globus ftp detection. (--with-gsiftp option)
 * threading uses the standard autoconf macro ax_pthread.m4 (--enable-threads)
-* binaries that everyone uses are now compiled by default (imcopy,...)
+* binaries that everyone uses are now compiled by default (such as imcopy)
 * testing now can be compiled and executed with "make check"
+
+To build cfitsio with this set of Makefile.am/configure.ac, do the
+following:
+
+1. Download the latest cfitsio version, untar it
+2. Copy Makefile.am, configure.ac, ax_pthread.m4 into the cfitsio
+directory
+3. Run autoreconf -fvi
+4. Then install with standard ./configure; make; make install
+
+
+Note: ultimately, cfitsio should use the autoheader, and setting all
+the define's in a config.h header, to be installed as well. This will
+need more patching of the sources. Stay tune.
