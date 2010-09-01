@@ -1,8 +1,21 @@
+CLEANFILES = *~
+MAINTAINERCLEANFILES = \
+        aclocal.m4 \
+        configure \
+        Makefile.in \
+        config.h \
+        config.h.in \
+        autoconf/* \
+        stamp-* \
+	eval_l.c eval_y.c eval_tab.h \
+	my*.out \
+        cfitsio.pc
+
 lib_LTLIBRARIES = libcfitsio.la
 
 C_SOURCES = \
 	buffers.c cfileio.c checksum.c compress.c drvrfile.c drvrmem.c \
-	drvrnet.c drvrsmem.c drvrgsiftp.c editcol.c edithdu.c eval_l.c \
+	drvrnet.c drvrsmem.c editcol.c edithdu.c eval_l.c \
 	eval_y.c eval_f.c fitscore.c getcol.c getcolb.c getcold.c getcole.c \
 	getcoli.c getcolj.c getcolk.c getcoll.c getcols.c getcolsb.c \
 	getcoluk.c getcolui.c getcoluj.c getkey.c group.c grparser.c \
@@ -13,20 +26,25 @@ C_SOURCES = \
 	swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
 	pliocomp.c fits_hcompress.c fits_hdecompress.c
 
+if WITH_GSIFTP
+C_SOURCES += drvrgsiftp.c drvrgsiftp.h
+endif
+
 F77_SOURCES=
 if ENABLE_FORTRAN
 F77_SOURCES += f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c f77_wrap.h
 endif
+
 AM_YFLAGS = -d -v
 
 include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
-noinst_HEADERS = cfortran.h  drvrgsiftp.h  eval_defs.h  f77_wrap.h  group.h \
-	compress.h  eval_tab.h   fpack.h   grparser.h  region.h
+noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h  group.h \
+	compress.h eval_tab.h fpack.h grparser.h region.h
 
-libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS)
+libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS) $(noinst_HEADERS)
+libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@ @PTHREAD_CFLAGS@
 libcfitsio_la_LDFLAGS = -no-undefined -version-info @SHARED_VERSION_INFO@
-libcfitsio_la_CPPFLAGS = @CPPFLAGS_FORTRAN@ @CPPFLAGS_EXTRA@ @CPPFLAGS_GLOBUS@
-libcfitsio_la_LIBADD = @LIBS_GLOBUS@
+libcfitsio_la_LIBADD = @GSIFTP_LIBS@ @PTHREAD_LIBS@
 
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -76,11 +94,14 @@ check-local: $(check_PROGRAMS)
 		exit 1; \
 	fi
 
-eval:
-	@$(LEX) -t eval.l > eval_l.c1; \
-	sed -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c; \
-	rm -f eval_l.c1; \
-	$(YACC) -d -v -y eval.y; \
-	sed -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.c > eval_y.c; \
-	sed -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h; \
-	rm -f y.tab.c y.tab.h
+eval:	Makefile
+	@$(LEX) -t eval.l > eval_l.c1
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c
+	@rm -f eval_l.c1
+	@$(YACC) -d -v -y eval.y
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.c > eval_y.c
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
+	@rm -f y.tab.c y.tab.h
+
+# hack to produce the generated eval_*.c sources before the rest
+buffers.c: eval

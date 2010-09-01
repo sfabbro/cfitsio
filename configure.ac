@@ -1,63 +1,48 @@
-AC_PREREQ(2.59)
-AC_INIT([cfitsio], [@VERSION@], [pence@tetra.gsfc.nasa.gov])
+AC_INIT([cfitsio], [3.250], [pence@tetra.gsfc.nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
+AC_CONFIG_AUX_DIR(autoconf)
+#AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([foreign])
 AC_CANONICAL_HOST
 
-AC_MSG_CHECKING([whether to enable POSIX threads])
-AC_ARG_ENABLE([threads],
-   [AS_HELP_STRING([--enable-threads], [Enable POSIX threads [default=yes]])],
-   [enable_threads=$enableval],
-   [enable_threads=no])
-
-sinclude(ax_pthread.m4)
-AX_PTHREAD(,[enable_threads=no])
-if test x"$enable_threads" != xno; then
-    LIBS="$PTHREAD_LIBS $LIBS"
-    CFLAGS="$PTHREAD_CFLAGS $CFLAGS"
-    CC="$PTHREAD_CC"
-    AC_DEFINE(_REENTRANT)
-fi
-
 AC_PROG_YACC
 AC_PROG_LEX
+AC_PROG_SED
 
 AC_MSG_CHECKING([whether to enable fortran interface])
-AC_ARG_ENABLE(fortran,
-    AC_HELP_STRING([--enable-fortran],
-                   [Compile the fortran interface (default=yes)]), 
-		   [ENABLE_FORTRAN=$enableval],
-                   [ENABLE_FORTRAN=yes])
+AC_ARG_ENABLE([fortran],
+    AC_HELP_STRING([--disable-fortran],
+                   [Disable compilation of the fortran interface]), 
+		   [enable_fortran=$enableval],
+                   [enable_fortran=yes])
 
-case x"$ENABLE_FORTRAN" in
- xno)
-    ENABLE_FORTRAN=no
-    # disable fortran libtool checks
-    define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
-    AC_MSG_RESULT([no])
-    ;;
- *)
-    ENABLE_FORTRAN=yes
-    AC_MSG_RESULT([yes])
+if test x"$enable_fortran" != xno; then
+    AC_MSG_RESULT([yes])    
     AC_PROG_F77
-    if test x$F77 = xg77; then
-      cfortran_def=g77Fortran
-    elif test x$F77 = xifort ; then
-      cfortran_def=INTEL_COMPILER
-    elif test x$F77 = xgfortran ; then
-      cfortran_def=gFortran
-    elif test x$F77 = xpgf77 ; then
-      cfortran_def=pgiFortran
-    else
-      cfortran_def=f2cFortran
-    fi
-    CPPFLAGS_FORTRAN="-D$cfortran_def"
-    AC_SUBST(CPPFLAGS_FORTRAN)
-    ;;
-esac
-
-AC_SUBST([ENABLE_FORTRAN])
-AM_CONDITIONAL([ENABLE_FORTRAN], test "x$ENABLE_FORTRAN" = "xyes")
+    case x$F77 in
+      x*g77) 
+      	AC_DEFINE(g77Fortran, [1], [Define to 1 if you have g77 style fortran])
+	;;
+      x*ifort)
+        AC_DEFINE(INTEL_COMPILER, [1], [Define to 1 if you have Intel style fortran])
+	;;
+      x*gfortran)
+        AC_DEFINE(gFortran, [1], [Define to 1 if you have gfortran style fortran])
+	;;
+      x*pgf77)
+        AC_DEFINE(pgiFortran, [1], [Define to 1 if you have Portland style fortran])
+	;;
+    	x*)
+        AC_DEFINE(f2cFortran, [1], [Define to 1 if you have f2c style fortran])
+	;;
+    esac
+else
+    AC_MSG_RESULT([no])
+    # disable fortran libtool checks
+    define([AC_LIBTOOL_LANG_FC_CONFIG], [:])
+    define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
+fi
+AM_CONDITIONAL([ENABLE_FORTRAN], [test x$enable_fortran = xyes])
 
 # disable cxx libtool check
 define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
@@ -66,42 +51,41 @@ dnl no api version info, so simply copy package version
 SHARED_VERSION_INFO="3:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
+sinclude(ax_pthread.m4)
+AC_MSG_CHECKING([whether to enable POSIX threads])
+AC_ARG_ENABLE([threads],
+   [AS_HELP_STRING([--disable-threads], [Disable POSIX threads])],
+   [enable_threads=$enableval],
+   [enable_threads=yes])
 
+if test x$enable_threads != xno; then
+   AC_MSG_RESULT([yes])
+   AX_PTHREAD(, [AC_MSG_ERROR([POSIX Threads library not found.])])
+   CC="$PTHREAD_CC"
+   AC_DEFINE(_REENTRANT, [1], [Define to 1 if you have POSIX threads])
+else
+   AC_MSG_RESULT([no])
+fi
+
+AC_SYS_LARGEFILE
 
 case $host in
-    *apple*darwin*)
-	dnl may break Absoft compilers
-	AC_DEFINE(_LARGEFILE_SOURCE, [1], 
-		  [Define to 1 if you have large file support])
-	AC_DEFINE(_FILE_OFFSET_BITS, [64],
- 		  [Offsets bits in files])
-	;;
     *hppa*)
-	CPPFLAGS_EXTRA="-DPG_PPU"
+	AC_DEFINE(PG_PPU, [1], [Define to 1 if you have PG PPU])
 	;;
     *sunos5*)
-	AC_DEFINE(_LARGEFILE_SOURCE, [1], 
-		  [Define to 1 if you have large file support])
-	AC_DEFINE(_FILE_OFFSET_BITS, [64],
- 		  [Offsets bits in files])
-	CPPFLAGS_EXTRA="-DHAVE_ALLOCA_H -DHAVE_POSIX_SIGNALS"
+	AC_DEFINE(POSIX_SIGNALS, [1],[Define to 1 if you have POSIX signals])
+	AC_DEFINE(HAVE_ALLOCA_H, [1],[Define to 1 if you have alloca.h])
 	;;
     *irix*)
-	CPPFLAGS_EXTRA="-DHAVE_POSIX_SIGNALS"
-	;;
-    *linux*)
-	AC_DEFINE(_LARGEFILE_SOURCE, [1], 
-		  [Define to 1 if you have large file support])
-	AC_DEFINE(_FILE_OFFSET_BITS, [64],
- 		  [Offsets bits in files])
+	AC_DEFINE(POSIX_SIGNALS, [1],[Define to 1 if you have POSIX signals])
 	;;
     *cygwin*)
-	CPPFLAGS_EXTRA="-DHAVE_POSIX_SIGNALS"
+	AC_DEFINE(POSIX_SIGNALS, [1],[Define to 1 if you have POSIX signals])
 	;;
     *)
 	;;
 esac
-AC_SUBST(CPPFLAGS_EXTRA)
 
 AC_CHECK_FUNCS([ftruncate])
 AC_CHECK_FUNCS([shmat shmdt shmget], 
@@ -142,62 +126,66 @@ flock_t filler;
 fi
 
 # check for union semun type
-AC_CHECK_TYPE(union semun,
+AC_CHECK_TYPE([union semun],
    AC_DEFINE(HAVE_UNION_SEMUN, [1],
 	[Define to 1 if you have semun in sys/sem.h]),,[
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
-		]
-)
+		])
 
 dnl this quick check will add -lm to LIBS
-AC_CHECK_LIB(m, cos)
+AC_CHECK_LIB([m], [cos])
 
-AC_ARG_WITH([gsiftp-flavour],
-  [AC_HELP_STRING([--with-gsiftp-flavour[=PATH]], [Compile with a given Globus Toolkit gsiftp protocol flavour])],
-  ,
-  [withval=no])
-
-case x$withval in
-  xno)
-      AC_MSG_CHECKING([for Globus flavor])
-      AC_MSG_RESULT([none])
-      ;;
-  xyes)
-      AC_MSG_RESULT([yes])
-      ;;
-  *)
-   AC_MSG_RESULT([$withval])
-   GSIFTP_FLAVOUR=$withval
-   AC_DEFINE(GSIFTP_FLAVOUR, [1], 
-	    [Define to 1 if you want Globus Toolkit architecture])
-   ;;
-esac
-
-AC_ARG_WITH(gsiftp,
-    [AC_HELP_STRING([--with-gsiftp[=PATH]], [Compile with Globus Toolkit gsiftp protocol support [default=no]])],
-    ,
-    [withval=no])
-case "x$withval" in
-  xno)
-      AC_MSG_CHECKING([for Globus Toolkit])
-      AC_MSG_RESULT([no])
-      ;;
-  xyes)
-      AC_MSG_RESULT([yes])
-      ;;
-  *)
-      AC_MSG_RESULT([yes])
-      CPPFLAGS_GLOBUS="-I${withval}/include/${GSIFTP_FLAVOUR}"
-      LIBS_GLOBUS="-L${withval}/lib -lglobus_ftp_client_${GSIFTP_FLAVOUR}"
-      HAVE_GSIFTP=yes
-      AC_DEFINE(HAVE_GSIFTP, [1],
-	    [Define if you want Globus Toolkit gsiftp protocol support])
+dnl Globus stuff
+AC_MSG_CHECKING([whether to build Globus ftp interface])
+AC_ARG_WITH([gsiftp],
+   [AC_HELP_STRING([--with-gsiftp@<:@=DIR@:>@],
+                   [Compile with Globus Toolkit gsiftp protocol support (default=no)])],
+   [case $withval in
+	yes | "" ) 
 	    ;;
-esac
+	*/*) 
+	   gsiftp_dir="$withval"
+	   ;;
+	*) 
+	   gsiftp_dir=none
+	   ;;
+    esac],
+   [gsiftp_dir=none])
 
-AC_SUBST(CPPFLAGS_GLOBUS)
-AC_SUBST(LIBS_GLOBUS)
+if test x$gsiftp_dir != xnone; then
+   AC_MSG_RESULT([yes])
+   AC_MSG_CHECKING([for Globus ftp flavour])
+   AC_ARG_WITH([gsiftp-flavour],
+     [AC_HELP_STRING([--with-gsiftp-flavour[=PATH]], [Compile with a given Globus Toolkit gsiftp protocol flavour (default: none)])],
+     [gsiftp_flavour=$withval],
+     [gsiftp_flavour=none])
+   if test x$gsiftp_flavour = xnone; then
+      AC_MSG_RESULT([none])
+      gsiftp_libname="globus_ftp_client"
+   else
+      AC_MSG_RESULT([$gsiftp_flavour])
+      gsiftp_libname="globus_ftp_client_$gsiftp_flavour"
+  fi
+  CPPFLAGS_sav="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS -I$gsiftp_dir/include/$gsiftp_flavour"
+  AC_CHECK_HEADER([globus_ftp_client.h], ,[AC_MSG_ERROR([  *** Header file globus_ftp_client.h not found.])])
+  CPPFLAGS="$CPPFLAGS_sav"
+  LIBS_sav="$LIBS"
+  LIBS="$LIBS -L$gsiftp_dir/lib"
+  AC_CHECK_LIB([$gsiftp_libname], [gsiftp_get], , [AC_MSG_ERROR([ *** Library $gsiftp_libname not linked properly])])
+  LIBS="$LIBS_sav"
+  HAVE_GSIFTP=yes
+  GSIFTP_CFLAGS="-I$gsiftp_dir/include/$gsiftp_flavour"
+  GSIFTP_LIBS="-L$gsiftp_dir/lib -l$gsiftp_libname"
+  AC_DEFINE(HAVE_GSIFTP, [1], [Define if you want Globus Toolkit gsiftp protocol support])
+  AC_SUBST(GSIFTP_CFLAGS)
+  AC_SUBST(GSIFTP_LIBS)
+else
+  AC_MSG_RESULT([no])
+fi
+AM_CONDITIONAL([WITH_GSIFTP], [test x$gsiftp_dir != xnone])
+
 AC_CONFIG_FILES([Makefile cfitsio.pc])
 AC_OUTPUT
