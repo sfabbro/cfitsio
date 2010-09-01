@@ -1,13 +1,15 @@
 AC_INIT([cfitsio], [3.250], [pence@tetra.gsfc.nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_AUX_DIR(autoconf)
-#AM_CONFIG_HEADER(config.h)
+dnl AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([foreign])
 AC_CANONICAL_HOST
 
 AC_PROG_YACC
 AC_PROG_LEX
-AC_PROG_SED
+dnl AC_PROG_SED is available only in autoconf 2.60 and later.
+dnl With older autoconf, assume that 'sed' is ok.
+ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed AC_SUBST(SED)])
 
 AC_MSG_CHECKING([whether to enable fortran interface])
 AC_ARG_ENABLE([fortran],
@@ -38,13 +40,13 @@ if test x"$enable_fortran" != xno; then
     esac
 else
     AC_MSG_RESULT([no])
-    # disable fortran libtool checks
+    dnl disable fortran libtool checks
     define([AC_LIBTOOL_LANG_FC_CONFIG], [:])
     define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
 fi
 AM_CONDITIONAL([ENABLE_FORTRAN], [test x$enable_fortran = xyes])
 
-# disable cxx libtool check
+dnl disable cxx libtool check
 define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
 AC_PROG_LIBTOOL
 dnl no api version info, so simply copy package version
@@ -61,6 +63,8 @@ AC_ARG_ENABLE([threads],
 if test x$enable_threads != xno; then
    AC_MSG_RESULT([yes])
    AX_PTHREAD(, [AC_MSG_ERROR([POSIX Threads library not found.])])
+   LIBS="$PTHREAD_LIBS $LIBS"
+   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
    CC="$PTHREAD_CC"
    AC_DEFINE(_REENTRANT, [1], [Define to 1 if you have POSIX threads])
 else
@@ -125,7 +129,7 @@ flock_t filler;
 	[AC_MSG_RESULT([no]) ])
 fi
 
-# check for union semun type
+dnl check for union semun type
 AC_CHECK_TYPE([union semun],
    AC_DEFINE(HAVE_UNION_SEMUN, [1],
 	[Define to 1 if you have semun in sys/sem.h]),,[

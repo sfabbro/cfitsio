@@ -42,9 +42,9 @@ noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h  group.h \
 	compress.h eval_tab.h fpack.h grparser.h region.h
 
 libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS) $(noinst_HEADERS)
-libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@ @PTHREAD_CFLAGS@
+libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@ 
 libcfitsio_la_LDFLAGS = -no-undefined -version-info @SHARED_VERSION_INFO@
-libcfitsio_la_LIBADD = @GSIFTP_LIBS@ @PTHREAD_LIBS@
+libcfitsio_la_LIBADD = @GSIFTP_LIBS@
 
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -78,8 +78,9 @@ check-local: $(check_PROGRAMS)
 	for i in $(check_PROGRAMS); do \
 		echo "--- Testing $$i ---"; \
 		./$$i${EXEEXT} > my_$$i.out; \
-		diff $$i.out my_$$i.out; \
-		cmp $$i.fit $$i.std; \
+		diff $(top_srcdir)/$$i.out my_$$i.out; \
+		cmp $$i.fit $(top_srcdir)/$$i.std; \
+		[ -e $(top_builddir)/testprog.tpt ] && cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
 		if [ "x$$?" = "x0" ]; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
@@ -94,14 +95,17 @@ check-local: $(check_PROGRAMS)
 		exit 1; \
 	fi
 
-eval:	Makefile
-	@$(LEX) -t eval.l > eval_l.c1
+# Do we need this or could we just put everything on the libraries with default rules?
+eval_l.c: Makefile
+	@$(LEX) -t $(top_srcdir)/eval.l > eval_l.c1
 	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c
 	@rm -f eval_l.c1
-	@$(YACC) -d -v -y eval.y
-	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.c > eval_y.c
-	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
-	@rm -f y.tab.c y.tab.h
 
-# hack to produce the generated eval_*.c sources before the rest
-buffers.c: eval
+eval_y.c: eval_l.c
+	@$(YACC) -d -v -y $(top_srcdir)/eval.y
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.c > eval_y.c
+	@rm -f y.tab.c
+
+eval_tab.h: eval_y.c
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
+	@rm -f y.tab.h
