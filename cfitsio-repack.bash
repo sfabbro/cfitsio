@@ -1,18 +1,23 @@
 #!/bin/bash
 
-version="${1:-3.250}"
-echo " >>> Repacking cfitsio version ${version}"
-echo
-wget ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio${version/./}.tar.gz
-tar xf cfitsio${version/./}.tar.gz
+VERSION=${1:-3.250}
+P="cfitsio-${VERSION}"
+NP="cfitsio${VERSION/./}"
+
+echo " >>> Fetching ${NP}..."
+wget -q ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/${NP}.tar.gz
+tar xf ${NP}.tar.gz
+echo " >>> Repacking cfitsio..."
 pushd cfitsio > /dev/null
-wget http://gitorious.org/poloka/cfitsio/blobs/raw/master/configure.ac
-wget http://gitorious.org/poloka/cfitsio/blobs/raw/master/Makefile.am
-wget "http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_pthread.m4" -O ax_pthread.m4
+wget -q http://gitorious.org/poloka/cfitsio/blobs/raw/master/configure.ac
+wget -q http://gitorious.org/poloka/cfitsio/blobs/raw/master/Makefile.am
+wget -q "http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_pthread.m4" -O ax_pthread.m4
 sed -i -e "s/@VERSION@/${version}/" configure.ac
 rm -f Makefile.in configure.in
-autoreconf -fi 
+autoreconf -fi &> /dev/null
+./configure > /dev/null
+make -s dist 
+cp ${P}.tar.gz ../
 popd > /dev/null
-echo
-echo " >>> Now run ./cfitsio/configure --help to see your compile options"
-echo
+rm -rf cfitsio/ ${NP}.tar.gz
+echo " >>> cfitsio-${version}.tar.gz is ready"
