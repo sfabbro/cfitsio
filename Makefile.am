@@ -71,7 +71,7 @@ check_PROGRAMS += testf77
 testf77_SOURCES = testf77.f
 endif
 
-EXTRA_DIST = README README.MacOS README.win32 License.txt changes.txt cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex
+EXTRA_DIST = README README.MacOS README.win32 License.txt changes.txt cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex eval.l eval.y
 
 check-local: $(check_PROGRAMS)
 	@total=0; failed=0; \
