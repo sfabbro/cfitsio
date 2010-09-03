@@ -41,8 +41,8 @@ if test x"$enable_fortran" != xno; then
 else
     AC_MSG_RESULT([no])
     dnl disable fortran libtool checks
-    define([AC_LIBTOOL_LANG_FC_CONFIG], [:])
     define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
+    define([AC_LIBTOOL_LANG_FC_CONFIG], [:])
 fi
 AM_CONDITIONAL([ENABLE_FORTRAN], [test x$enable_fortran = xyes])
 

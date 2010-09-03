@@ -1,3 +1,4 @@
+BUILT_SOURCES = eval_y.c eval_f.c eval_tab.h
 CLEANFILES = *~
 MAINTAINERCLEANFILES = \
         aclocal.m4 \
@@ -7,7 +8,7 @@ MAINTAINERCLEANFILES = \
         config.h.in \
         autoconf/* \
         stamp-* \
-	eval_l.c eval_y.c eval_tab.h \
+	$(BUILT_SOURCES) \
 	my*.out \
         cfitsio.pc
 
@@ -46,7 +47,6 @@ libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@
 libcfitsio_la_LDFLAGS = -no-undefined -version-info @SHARED_VERSION_INFO@
 libcfitsio_la_LIBADD = @GSIFTP_LIBS@
 
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cfitsio.pc
 
@@ -75,7 +75,10 @@ EXTRA_DIST = README README.MacOS README.win32 \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	eval.l eval.y \
-	testprog.out testprog.std testf77.out testf77.std testprog.tpt
+	testf77.std testprog.tpt testprog.std testf77.out testprog.out
+
+# hack to avoid dist target to rebuild testprog
+%.out: ;
 
 check-local: $(check_PROGRAMS)
 	@total=0; failed=0; \
@@ -84,7 +87,7 @@ check-local: $(check_PROGRAMS)
 		./$$i${EXEEXT} > my_$$i.out; \
 		diff $(top_srcdir)/$$i.out my_$$i.out; \
 		cmp $$i.fit $(top_srcdir)/$$i.std; \
-		[ -e $(top_builddir)/testprog.tpt ] && cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
+		[ -e $(top_builddir)/testprog.tpt ] || cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
 		if [ "x$$?" = "x0" ]; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
@@ -99,7 +102,6 @@ check-local: $(check_PROGRAMS)
 		exit 1; \
 	fi
 
-# Do we need this or could we just put everything on the libraries with default rules?
 eval_l.c: Makefile
 	@$(LEX) -t $(top_srcdir)/eval.l > eval_l.c1
 	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c
