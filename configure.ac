@@ -1,4 +1,4 @@
-AC_INIT([cfitsio], [3.250], [pence@tetra.gsfc.nasa.gov])
+AC_INIT([cfitsio], [3.250], [William.D.Pence@nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_AUX_DIR(autoconf)
 dnl AM_CONFIG_HEADER(config.h)
@@ -21,6 +21,7 @@ AC_ARG_ENABLE([fortran],
 if test x"$enable_fortran" != xno; then
     AC_MSG_RESULT([yes])    
     AC_PROG_F77
+    AC_F77_LIBRARY_LDFLAGS
     case x$F77 in
       x*g77) 
       	AC_DEFINE(g77Fortran, [1], [Define to 1 if you have g77 style fortran])
@@ -40,9 +41,6 @@ if test x"$enable_fortran" != xno; then
     esac
 else
     AC_MSG_RESULT([no])
-    dnl disable fortran libtool checks
-    define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
-    define([AC_LIBTOOL_LANG_FC_CONFIG], [:])
 fi
 AM_CONDITIONAL([ENABLE_FORTRAN], [test x$enable_fortran = xyes])
 
