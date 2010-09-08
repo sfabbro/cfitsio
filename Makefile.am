@@ -129,3 +129,13 @@ eval_y.c: eval_l.c
 eval_tab.h: eval_y.c
 	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
 	@rm -f y.tab.h
+
+# hack to remove ambiguity between the similar filenames
+# of the c and f77 version (shortcoming of automake)
+# the f77 versions are forced, the c ones will change name
+iter_a.o: iter_a.f
+        $(F77COMPILE) -c -o $@ $<
+iter_b.o: iter_b.f
+        $(F77COMPILE) -c -o $@ $<
+iter_c.o: iter_c.f
+        $(F77COMPILE) -c -o $@ $<
