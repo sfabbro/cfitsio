@@ -8,9 +8,15 @@ MAINTAINERCLEANFILES = \
         config.h.in \
         autoconf/* \
         stamp-* \
-	$(BUILT_SOURCES) \
-	my*.out \
         cfitsio.pc
+
+DISTCLEANFILES = \
+	$(BUILT_SOURCES) \
+	testf77.fit \
+	testprog.fit \
+	y.output \
+	my_*.out
+
 
 lib_LTLIBRARIES = libcfitsio.la
 
@@ -59,26 +65,18 @@ imcopy_SOURCES = imcopy.c
 fpack_SOURCES = fpack.c fpackutil.c
 funpack_SOURCES = funpack.c fpackutil.c
 
-check_PROGRAMS = testprog speed cookbook smem \
-	itera iterb iterc iterimage itervar
+check_PROGRAMS = testprog speed cookbook smem
+testprog_SOURCES = testprog.c
 speed_SOURCES = speed.c
 cookbook_SOURCES = cookbook.c
 smem_SOURCES = smem.c
-itera_SOURCES = iter_a.c
-iterb_SOURCES = iter_b.c
-iterc_SOURCES = iter_c.c
-iterimage_SOURCES = iter_image.c
-itervar_SOURCES = iter_var.c
-testprog_SOURCES = testprog.c
 testprogs = testprog
 
 if ENABLE_FORTRAN
-check_PROGRAMS += testf77 cookbookf77 iteraf77 iterbf77 itercf77
-cookbookf77 = cookbook.f
-iteraf77_SOURCES = iter_a.f f77.inc
-iterbf77_SOURCES = iter_b.f f77.inc
-itercf77_SOURCES = iter_c.f f77.inc
+check_PROGRAMS += testf77 cookbookf77
 testf77_SOURCES = testf77.f
+cookbookf77_SOURCES = cookbook.f
+cookbookf77_FFLAGS = -W
 testprogs += testf77
 endif
 
@@ -86,12 +84,16 @@ EXTRA_DIST = README README.MacOS README.win32 \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	cfitsio.ps  fitsio.ps  quick.ps fpackguide.pdf \
-	eval.l eval.y \
+	eval.l eval.y cookbook.f \
 	testf77.std testprog.tpt testprog.std testf77.out testprog.out \
+	iter_a.c iter_b.c iter_c.c iter_image.c iter_var.c \
+	iter_a.f iter_b.f iter_c.f f77.inc \
 	iter_a.fit iter_b.fit iter_c.fit
 
 # hack to avoid dist target to rebuild testprog
 %.out: ;
+
+TESTS = $(check_PROGRAMS)
 
 check-local: $(testprogs)
 	@total=0; failed=0; \
@@ -114,7 +116,8 @@ check-local: $(testprogs)
 		echo "*** ERROR: $$failed/$$total tests failed!!!"; \
 		echo ""; \
 		exit 1; \
-	fi
+	fi; \
+	rm -f $(top_builddir)/testprog.tpt
 
 eval_l.c: Makefile
 	@$(LEX) -t $(top_srcdir)/eval.l > eval_l.c1
@@ -130,12 +133,3 @@ eval_tab.h: eval_y.c
 	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
 	@rm -f y.tab.h
 
-# hack to remove ambiguity between the similar filenames
-# of the c and f77 version (shortcoming of automake)
-# the f77 versions are forced, the c ones will change name
-iter_a.o: iter_a.f
-        $(F77COMPILE) -c -o $@ $<
-iter_b.o: iter_b.f
-        $(F77COMPILE) -c -o $@ $<
-iter_c.o: iter_c.f
-        $(F77COMPILE) -c -o $@ $<
