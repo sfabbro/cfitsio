@@ -51,6 +51,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cfitsio.pc
 
 LDADD = libcfitsio.la
+
 bin_PROGRAMS = fitscopy imcopy listhead fpack funpack
 fitscopy_SOURCES = fitscopy.c
 listhead_SOURCES = listhead.c
@@ -58,36 +59,47 @@ imcopy_SOURCES = imcopy.c
 fpack_SOURCES = fpack.c fpackutil.c
 funpack_SOURCES = funpack.c fpackutil.c
 
-# tests
-check_PROGRAMS = testprog
-noinst_PROGRAMS =  speed cookbook smem
+check_PROGRAMS = speed cookbook smem \
+	iter_a iter_b iter_c iter_image iter_var
+testprogs = testprog.c
 testprog_SOURCES = testprog.c
 speed_SOURCES = speed.c
 cookbook_SOURCES = cookbook.c
 smem_SOURCES = smem.c
+iter_a_SOURCES = iter_a.c
+iter_b_SOURCES = iter_b.c
+iter_c_SOURCES = iter_c.c
+iter_image_SOURCES = iter_image.c
+iter_var_SOURCES = iter_var.c
 
 if ENABLE_FORTRAN
-check_PROGRAMS += testf77
+check_PROGRAMS += cookbookf77 iter_af77 iter_bf77 iter_cf77
 testf77_SOURCES = testf77.f
+cookbookf77 = cookbook.f
+iter_af77_SOURCES = iter_a.f f77.inc
+iter_bf77_SOURCES = iter_b.f f77.inc
+iter_cf77_SOURCES = iter_c.f f77.inc
 endif
 
 EXTRA_DIST = README README.MacOS README.win32 \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	eval.l eval.y \
-	testf77.std testprog.tpt testprog.std testf77.out testprog.out
+	testf77.std testprog.tpt testprog.std testf77.out testprog.out \
+	iter_a.fit iter_b.fit iter_c.fit
 
 # hack to avoid dist target to rebuild testprog
 %.out: ;
 
-check-local: $(check_PROGRAMS)
+check-local: $(testprogs)
 	@total=0; failed=0; \
-	for i in $(check_PROGRAMS); do \
+	for i in $(testprogs); do \
 		echo "--- Testing $$i ---"; \
+		[ -e $(top_builddir)/testprog.tpt ] || \
+		cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
 		./$$i${EXEEXT} > my_$$i.out; \
 		diff $(top_srcdir)/$$i.out my_$$i.out; \
 		cmp $$i.fit $(top_srcdir)/$$i.std; \
-		[ -e $(top_builddir)/testprog.tpt ] || cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
 		if [ "x$$?" = "x0" ]; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
