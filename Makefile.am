@@ -59,31 +59,33 @@ imcopy_SOURCES = imcopy.c
 fpack_SOURCES = fpack.c fpackutil.c
 funpack_SOURCES = funpack.c fpackutil.c
 
-check_PROGRAMS = speed cookbook smem \
-	iter_a iter_b iter_c iter_image iter_var
-testprogs = testprog.c
-testprog_SOURCES = testprog.c
+check_PROGRAMS = testprog speed cookbook smem \
+	itera iterb iterc iterimage itervar
 speed_SOURCES = speed.c
 cookbook_SOURCES = cookbook.c
 smem_SOURCES = smem.c
-iter_a_SOURCES = iter_a.c
-iter_b_SOURCES = iter_b.c
-iter_c_SOURCES = iter_c.c
-iter_image_SOURCES = iter_image.c
-iter_var_SOURCES = iter_var.c
+itera_SOURCES = iter_a.c
+iterb_SOURCES = iter_b.c
+iterc_SOURCES = iter_c.c
+iterimage_SOURCES = iter_image.c
+itervar_SOURCES = iter_var.c
+testprog_SOURCES = testprog.c
+testprogs = testprog
 
 if ENABLE_FORTRAN
-check_PROGRAMS += cookbookf77 iter_af77 iter_bf77 iter_cf77
-testf77_SOURCES = testf77.f
+check_PROGRAMS += testf77 cookbookf77 iteraf77 iterbf77 itercf77
 cookbookf77 = cookbook.f
-iter_af77_SOURCES = iter_a.f f77.inc
-iter_bf77_SOURCES = iter_b.f f77.inc
-iter_cf77_SOURCES = iter_c.f f77.inc
+iteraf77_SOURCES = iter_a.f f77.inc
+iterbf77_SOURCES = iter_b.f f77.inc
+itercf77_SOURCES = iter_c.f f77.inc
+testf77_SOURCES = testf77.f
+testprogs += testf77
 endif
 
 EXTRA_DIST = README README.MacOS README.win32 \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
+	cfitsio.ps  fitsio.ps  quick.ps fpackguide.pdf \
 	eval.l eval.y \
 	testf77.std testprog.tpt testprog.std testf77.out testprog.out \
 	iter_a.fit iter_b.fit iter_c.fit
