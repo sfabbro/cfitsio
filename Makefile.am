@@ -1,4 +1,4 @@
-BUILT_SOURCES = eval_y.c eval_f.c eval_tab.h
+BUILT_SOURCES = eval_y.c eval_l.c eval_tab.h
 CLEANFILES = *~
 MAINTAINERCLEANFILES = \
         aclocal.m4 \
@@ -15,7 +15,13 @@ DISTCLEANFILES = \
 	testf77.fit \
 	testprog.fit \
 	y.output \
-	my_*.out
+	my_*.out \
+	btestfil.fit \
+	speedcc.fit \
+	atestfil.fit \
+	ATESTFILEZ.FITS \
+	BTESTFILEZ.FITS
+
 
 
 lib_LTLIBRARIES = libcfitsio.la

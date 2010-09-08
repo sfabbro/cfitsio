@@ -22,7 +22,7 @@ echo -n " >>> Producing new tar ball ... "
 rm -f Makefile.in configure.in
 autoreconf -i &> /dev/null
 ./configure -q > /dev/null
-make -s distcheck
+make -s dist
 P="cfitsio-${VERSION}"
 [ ! -e "${P}.tar.gz" ] && echo "\n   error producing tar ball" && exit
 echo "OK"
