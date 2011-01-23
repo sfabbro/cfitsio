@@ -1,7 +1,7 @@
-AC_INIT([cfitsio], [3.250], [William.D.Pence@nasa.gov])
+AC_INIT([cfitsio], [3.260], [William.D.Pence@nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
+AC_CONFIG_HEADERS([fitsio_config.h])
 AC_CONFIG_AUX_DIR(autoconf)
-dnl AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([foreign])
 AC_CANONICAL_HOST
 
@@ -52,6 +52,8 @@ SHARED_VERSION_INFO="3:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
 sinclude(ax_pthread.m4)
+sinclude(ax_check_zlib.m4)
+
 AC_MSG_CHECKING([whether to enable POSIX threads])
 AC_ARG_ENABLE([threads],
    [AS_HELP_STRING([--disable-threads], [Disable POSIX threads])],
@@ -68,6 +70,17 @@ if test x$enable_threads != xno; then
 else
    AC_MSG_RESULT([no])
 fi
+
+# Define BUILD_HERA when building for HERA project to activate code in
+# drvrfile.c (by way of fitsio2.h):
+AC_MSG_CHECKING([whether we are building for HERA])
+AC_ARG_ENABLE([hera],
+    AC_HELP_STRING([--enable-hera],
+                   [Build for HERA (ASD use only)]), 
+		   [enable_hera=$enableval],
+                   [enable_hera=no])
+
+AX_CHECK_ZLIB
 
 AC_SYS_LARGEFILE
 

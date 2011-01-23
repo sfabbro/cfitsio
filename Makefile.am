@@ -8,7 +8,8 @@ MAINTAINERCLEANFILES = \
         config.h.in \
         autoconf/* \
         stamp-* \
-        cfitsio.pc
+        cfitsio.pc \
+	fitsio_config.h.in
 
 DISTCLEANFILES = \
 	$(BUILT_SOURCES) \
@@ -27,7 +28,7 @@ DISTCLEANFILES = \
 lib_LTLIBRARIES = libcfitsio.la
 
 C_SOURCES = \
-	buffers.c cfileio.c checksum.c compress.c drvrfile.c drvrmem.c \
+	buffers.c cfileio.c checksum.c drvrfile.c drvrmem.c \
 	drvrnet.c drvrsmem.c editcol.c edithdu.c eval_l.c \
 	eval_y.c eval_f.c fitscore.c getcol.c getcolb.c getcold.c getcole.c \
 	getcoli.c getcolj.c getcolk.c getcoll.c getcols.c getcolsb.c \
@@ -37,7 +38,7 @@ C_SOURCES = \
 	putcolj.c putcolk.c putcoluk.c putcoll.c putcols.c putcolsb.c \
 	putcolu.c putcolui.c putcoluj.c putkey.c region.c scalnull.c \
 	swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
-	pliocomp.c fits_hcompress.c fits_hdecompress.c
+	pliocomp.c fits_hcompress.c fits_hdecompress.c zuncompress.c zcompress.c
 
 if WITH_GSIFTP
 C_SOURCES += drvrgsiftp.c drvrgsiftp.h
@@ -50,9 +51,9 @@ endif
 
 AM_YFLAGS = -d -v
 
-include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
+include_HEADERS = fitsio_config.h fitsio.h fitsio2.h longnam.h drvrsmem.h
 noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h  group.h \
-	compress.h eval_tab.h fpack.h grparser.h region.h
+	eval_tab.h fpack.h grparser.h region.h
 
 libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS) $(noinst_HEADERS)
 libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@ 
@@ -64,9 +65,8 @@ pkgconfig_DATA = cfitsio.pc
 
 LDADD = libcfitsio.la
 
-bin_PROGRAMS = fitscopy imcopy listhead fpack funpack
+bin_PROGRAMS = fitscopy imcopy fpack funpack
 fitscopy_SOURCES = fitscopy.c
-listhead_SOURCES = listhead.c
 imcopy_SOURCES = imcopy.c
 fpack_SOURCES = fpack.c fpackutil.c
 funpack_SOURCES = funpack.c fpackutil.c
@@ -105,11 +105,11 @@ check-local: $(testprogs)
 	@total=0; failed=0; \
 	for i in $(testprogs); do \
 		echo "--- Testing $$i ---"; \
-		[ -e $(top_builddir)/testprog.tpt ] || \
-		cp -f $(top_srcdir)/testprog.tpt $(top_builddir)/ ; \
+		[ -e "$(top_builddir)"/testprog.tpt ] || \
+		cp -f "$(top_srcdir)"/testprog.tpt "$(top_builddir)"/ ; \
 		./$$i${EXEEXT} > my_$$i.out; \
-		diff $(top_srcdir)/$$i.out my_$$i.out; \
-		cmp $$i.fit $(top_srcdir)/$$i.std; \
+		diff "$(top_srcdir)"/$$i.out my_$$i.out; \
+		cmp $$i.fit "$(top_srcdir)"/$$i.std; \
 		if [ "x$$?" = "x0" ]; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
@@ -122,8 +122,10 @@ check-local: $(testprogs)
 		echo "*** ERROR: $$failed/$$total tests failed!!!"; \
 		echo ""; \
 		exit 1; \
-	fi; \
-	rm -f $(top_builddir)/testprog.tpt
+	fi
+	if [ "$(top_builddir)" != "$(top_srcdir)" ]; then \
+		rm -f $(top_builddir)/testprog.tpt; \
+	fi
 
 eval_l.c: Makefile
 	@$(LEX) -t $(top_srcdir)/eval.l > eval_l.c1
@@ -138,4 +140,3 @@ eval_y.c: eval_l.c
 eval_tab.h: eval_y.c
 	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
 	@rm -f y.tab.h
-
