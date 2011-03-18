@@ -52,7 +52,8 @@ endif
 
 AM_YFLAGS = -d -v
 
-include_HEADERS = fitsio_config.h fitsio.h fitsio2.h longnam.h drvrsmem.h
+include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
+nodist_include_HEADERS = fitsio_config.h
 noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h  group.h \
 	eval_tab.h fpack.h grparser.h region.h
 
