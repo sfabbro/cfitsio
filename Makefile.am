@@ -9,7 +9,8 @@ MAINTAINERCLEANFILES = \
         autoconf/* \
         stamp-* \
         cfitsio.pc \
-	fitsio_config.h.in
+	fitsio_config.h.in \
+	fitsio_config.h
 
 DISTCLEANFILES = \
 	$(BUILT_SOURCES) \
@@ -21,9 +22,9 @@ DISTCLEANFILES = \
 	speedcc.fit \
 	atestfil.fit \
 	ATESTFILEZ.FITS \
-	BTESTFILEZ.FITS
-
-
+	BTESTFILEZ.FITS \
+	fitsio_config.h.in \
+	fitsio_config.h
 
 lib_LTLIBRARIES = libcfitsio.la
 

@@ -16,7 +16,7 @@ for f in configure.ac Makefile.am ax_pthread.m4 ax_check_zlib.m4 cfitsio-autohea
 done
 wget -q http://gitorious.org/poloka/cfitsio/blobs/raw/master/README -O README.repack
 patch -sp0 < cfitsio-autoheader.patch
-sed -i -e "s/@VERSION@/${version}/" configure.ac
+sed -i -e "s/@VERSION@/${VERSION}/" configure.ac
 echo " >>> Producing new tar ball ..."
 rm -f Makefile.in configure.in
 autoreconf -i &> /dev/null

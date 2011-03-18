@@ -80,6 +80,13 @@ AC_ARG_ENABLE([hera],
 		   [enable_hera=$enableval],
                    [enable_hera=no])
 
+# not much, hera has to define what to do with it
+if test x$enable_hera != xno; then
+   AC_MSG_RESULT([yes])
+else
+   AC_MSG_RESULT([no])
+fi
+
 AX_CHECK_ZLIB
 
 AC_SYS_LARGEFILE
