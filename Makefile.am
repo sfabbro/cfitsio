@@ -86,7 +86,7 @@ cookbookf77_FFLAGS = -W
 testprogs += testf77
 endif
 
-EXTRA_DIST = README README.MacOS README.win32 \
+EXTRA_DIST = README README.MacOS README.win32 README.repack \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	cfitsio.ps  fitsio.ps  quick.ps fpackguide.pdf \
@@ -129,7 +129,7 @@ check-local: $(testprogs)
 
 eval_l.c: Makefile
 	@$(LEX) -t $(top_srcdir)/eval.l > eval_l.c1
-	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c
+	@$(SED) -e 's/yy/ff/g' -e 's/YY/FF/g' -e 's/fffree/yyfree/g' eval_l.c1 > eval_l.c
 	@rm -f eval_l.c1
 
 eval_y.c: eval_l.c
