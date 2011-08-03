@@ -164,6 +164,9 @@ SERVICES PROVIDED HEREUNDER."
 
 /* ================================================================= */
 
+#ifdef HAVE_CONFIG_H
+#include "fitsio_config.h"
+#endif
 
 /*  The following exclusion if __CINT__ is defined is needed for ROOT */
 #ifndef __CINT__

@@ -148,6 +148,10 @@ Baltimore MD 21218 USA              ¦ http://faxafloi.stsci.edu:4547/
    
  */
 
+#ifdef HAVE_CONFIG_H
+#include "fitsio_config.h"
+#endif
+
 #ifdef HAVE_NET_SERVICES
 #include <string.h>
 
