@@ -91,7 +91,7 @@ endif
 EXTRA_DIST = README README.MacOS README.win32 README.repack \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
-	cfitsio.ps  fitsio.ps  quick.ps fpackguide.pdf \
+	cfitsio.pdf  fitsio.pdf  quick.pdf fpackguide.pdf \
 	eval.l eval.y cookbook.f \
 	testf77.std testprog.tpt testprog.std testf77.out testprog.out \
 	iter_a.c iter_b.c iter_c.c iter_image.c iter_var.c \
