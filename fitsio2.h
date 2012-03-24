@@ -1,6 +1,10 @@
 #ifndef _FITSIO2_H
 #define _FITSIO2_H
  
+#ifdef HAVE_CONFIG_H
+#include "fitsio_config.h"
+#endif
+
 #include "fitsio.h"
 
 /* 

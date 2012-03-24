@@ -1,4 +1,4 @@
-AC_INIT([cfitsio], [3.280], [William.D.Pence@nasa.gov])
+AC_INIT([cfitsio],[3.290],[William.D.Pence@nasa.gov])
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_HEADERS([fitsio_config.h])
 AC_CONFIG_AUX_DIR(autoconf)
@@ -13,8 +13,7 @@ ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed AC_SUBST(SED)])
 
 AC_MSG_CHECKING([whether to enable fortran interface])
 AC_ARG_ENABLE([fortran],
-    AC_HELP_STRING([--disable-fortran],
-                   [Disable compilation of the fortran interface]), 
+    AS_HELP_STRING([--disable-fortran],[Disable compilation of the fortran interface]), 
 		   [enable_fortran=$enableval],
                    [enable_fortran=yes])
 
@@ -75,8 +74,7 @@ fi
 # drvrfile.c (by way of fitsio2.h):
 AC_MSG_CHECKING([whether we are building for HERA])
 AC_ARG_ENABLE([hera],
-    AC_HELP_STRING([--enable-hera],
-                   [Build for HERA (ASD use only)]), 
+    AS_HELP_STRING([--enable-hera],[Build for HERA (ASD use only)]), 
 		   [enable_hera=$enableval],
                    [enable_hera=no])
 
@@ -162,8 +160,7 @@ AC_CHECK_LIB([m], [cos])
 dnl Globus stuff
 AC_MSG_CHECKING([whether to build Globus ftp interface])
 AC_ARG_WITH([gsiftp],
-   [AC_HELP_STRING([--with-gsiftp@<:@=DIR@:>@],
-                   [Compile with Globus Toolkit gsiftp protocol support (default=no)])],
+   [AS_HELP_STRING([--with-gsiftp@<:@=DIR@:>@],[Compile with Globus Toolkit gsiftp protocol support (default=no)])],
    [case $withval in
 	yes | "" ) 
 	    ;;
@@ -180,7 +177,7 @@ if test x$gsiftp_dir != xnone; then
    AC_MSG_RESULT([yes])
    AC_MSG_CHECKING([for Globus ftp flavour])
    AC_ARG_WITH([gsiftp-flavour],
-     [AC_HELP_STRING([--with-gsiftp-flavour[=PATH]], [Compile with a given Globus Toolkit gsiftp protocol flavour (default: none)])],
+     [AS_HELP_STRING([--with-gsiftp-flavour[=PATH]],[Compile with a given Globus Toolkit gsiftp protocol flavour (default: none)])],
      [gsiftp_flavour=$withval],
      [gsiftp_flavour=none])
    if test x$gsiftp_flavour = xnone; then

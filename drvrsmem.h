@@ -18,6 +18,10 @@
 #include <sys/fcntl.h>
 #endif
 
+#ifdef HAVE_CONFIG_H
+#include "fitsio_config.h"
+#endif
+
 		/* configuration parameters */
 
 #define	SHARED_MAXSEG	(16)		/* maximum number of shared memory blocks */

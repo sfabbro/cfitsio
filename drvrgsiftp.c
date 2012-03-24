@@ -2,6 +2,10 @@
 /*  This file, drvrgsiftp.c contains driver routines for gsiftp files. */
 /*  Andrea Barisani <lcars@si.inaf.it>                                 */
 /* Taffoni Giuliano <taffoni@oats.inaf.it>                             */
+#ifdef HAVE_CONFIG_H
+#include "fitsio_config.h"
+#endif
+
 #ifdef HAVE_NET_SERVICES
 #ifdef HAVE_GSIFTP
 
