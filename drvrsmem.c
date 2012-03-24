@@ -12,10 +12,6 @@
             no shmem segments remain, and last process terminates
 */
 
-#ifdef HAVE_CONFIG_H
-#include "fitsio_config.h"
-#endif
-
 #ifdef HAVE_SHMEM_SERVICES
 #include "fitsio2.h"                         /* drvrsmem.h is included by it */
 

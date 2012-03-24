@@ -148,10 +148,6 @@ Baltimore MD 21218 USA              ¦ http://faxafloi.stsci.edu:4547/
    
  */
 
-#ifdef HAVE_CONFIG_H
-#include "fitsio_config.h"
-#endif
-
 #ifdef HAVE_NET_SERVICES
 #include <string.h>
 
@@ -1683,7 +1679,7 @@ int ftp_open_network(char *filename, FILE **ftpfile, FILE **command, int *sock)
     puts("Sent RETR command");
 #endif
     if (ftp_status(*command,"150 ")) {
-      ffpmsg ("RETR error, most likely file is not there (ftp_open)");
+    /*  ffpmsg ("RETR error, most likely file is not there (ftp_open)"); */
       fclose(*command);
 #ifdef DEBUG
       puts("File not there");
