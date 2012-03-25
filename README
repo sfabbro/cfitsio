@@ -1,3 +1,57 @@
+Changes from upstream cfitsio
+=============================
+
+Based on upstream version: 3.290
+
+This is a repackaging of the FITS I/O library cfitsio using modern
+autotools and some other changes which are listed below, mostly to
+satisfy Linux distribution QA and users to build the library and executable tools.
+
+To build cfitsio, use the traditional commands:
+
+ >  ./configure
+ >  make
+ >  make check [will test cfitsio]
+ >  make install
+
+To see options to build cfitsio, run configure --help. There are the
+following extra options for the user:
+ * --enable-threads  : will allow multi-threading (replace --enable-reentrant)
+ * --disable-fortran : will not build the fortran wrappers
+ * --disable-static  : will not build the static library
+ * --disable-shared  : will not build the shared library
+ * --disable-tools   : will not build fpack, funpack, imcopy, fitscopy, listhead
+
+List of differences with the HEASARC, NASA/GSFC cfitsio tar ball:
+
+* Shared and static libraries can be both properly configured. This is
+  the standard libtool behaviour with all the advantages (static libs
+  compiled without PIC, but shared libs are compiled with PIC)
+* zlib has been unbundled and autoconf is using the ax_check_zlib
+  macro, to help distribution packagers
+* execs built by default: fpack, funpack, imcopy, fitscopy, listhead
+* the listhead exec has been re-introduced (was removed from upstream
+  3.270 and above)
+* added an option to build cfitsio without fortran (--disable-fortran)
+* much more robust globus ftp detection. (--with-gsiftp option)
+* threading uses the standard autoconf macro ax_pthread.m4
+  (--enable-threads) instead of non generic --enable-reentrant
+* simple testing now can be compiled and executed with "make check"
+* use of more standard and modern autoconf macros to check for
+  exisiting functions and libraries
+* use of autoheader and a generated fitsio_config.h at configure
+  time that will be installed. Packages dependent on cfitsio can
+  therefore check whether cfitsio was compiled with a specific
+  feature.
+* the generated parsing files (eval_*) are now built using the BUILT_SOURCES
+  feature of automake
+* added file ax_cfitsio.m4 which can be used in packages with autoconf depending on cfitsio
+
+Below is the original upstream README file. The instructions to build
+and test cfitsio are not up-to-date with this current repackaging.
+
+=============================
+
                    CFITSIO Interface Library
 
 CFITSIO is a library of ANSI C routines for reading and writing FITS

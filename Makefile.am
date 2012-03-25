@@ -67,11 +67,14 @@ pkgconfig_DATA = cfitsio.pc
 
 LDADD = libcfitsio.la
 
-bin_PROGRAMS = fitscopy imcopy fpack funpack
+if ENABLE_TOOLS
+bin_PROGRAMS = fitscopy imcopy fpack funpack listhead
 fitscopy_SOURCES = fitscopy.c
 imcopy_SOURCES = imcopy.c
 fpack_SOURCES = fpack.c fpackutil.c
 funpack_SOURCES = funpack.c fpackutil.c
+listhead_SOURCES = listhead.c
+endif
 
 check_PROGRAMS = testprog speed cookbook smem
 testprog_SOURCES = testprog.c
@@ -88,7 +91,7 @@ cookbookf77_FFLAGS = -W
 testprogs += testf77
 endif
 
-EXTRA_DIST = README README.MacOS README.win32 README.repack \
+EXTRA_DIST = README README.MacOS README.win32 \
 	License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	cfitsio.pdf  fitsio.pdf  quick.pdf fpackguide.pdf \
