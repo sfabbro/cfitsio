@@ -43,6 +43,19 @@ else
 fi
 AM_CONDITIONAL([ENABLE_FORTRAN], [test x$enable_fortran = xyes])
 
+AC_MSG_CHECKING([whether to build and install executable tools])
+AC_ARG_ENABLE([tools],
+    AS_HELP_STRING([--disable-tools],[Do not build the extra execs such funpack or imcopy]),
+		   [enable_tools=$enableval],
+                   [enable_tools=yes])
+
+if test x"$enable_tools" != xno; then
+    AC_MSG_RESULT([yes])    
+else
+    AC_MSG_RESULT([no])
+fi
+AM_CONDITIONAL([ENABLE_TOOLS], [test x$enable_tools = xyes])
+
 dnl disable cxx libtool check
 define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
 AC_PROG_LIBTOOL
