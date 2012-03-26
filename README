@@ -47,6 +47,9 @@ List of differences with the HEASARC, NASA/GSFC cfitsio tar ball:
   feature of automake
 * added file ax_cfitsio.m4 which can be used in packages with autoconf depending on cfitsio
 
+The macros ax_pthread.m4 and ax_check_zlib.m4 were taken from the autoconf archive:
+http://git.savannah.gnu.org/cgit/autoconf-archive.git/tree/m4
+
 Below is the original upstream README file. The instructions to build
 and test cfitsio are not up-to-date with this current repackaging.
 
