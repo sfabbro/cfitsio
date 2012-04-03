@@ -21,3 +21,8 @@ eval_l.c
 eval_tab.h
 eval_y.c
 y.output
+fitscopy
+fpack
+funpack
+imcopy
+listhead
