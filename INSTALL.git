@@ -1,0 +1,12 @@
+To build this fork of cfitsio from the git directory, do the
+following: 
+
+1. Sync with all the upstream sources:
+
+ $ ./sync.sh <cfitsio version>
+
+2. Build the new tar ball:
+
+ $ ./build.sh
+
+
