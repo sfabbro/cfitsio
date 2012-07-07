@@ -68,6 +68,9 @@ directory. They can come from users or other distributions ([3],[4]).
 References
 ----------
 [1] http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html
+
 [2] http://git.savannah.gnu.org/cgit/autoconf-archive.git
+
 [3] http://pkgs.fedoraproject.org/gitweb/?p=cfitsio.git
+
 [4] http://packages.qa.debian.org/c/cfitsio3.html
