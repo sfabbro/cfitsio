@@ -17,10 +17,10 @@ To build cfitsio, use the traditional commands:
 To see options to build cfitsio, run configure --help. There are the
 following extra options for the user:
 
- * --enable-threads  allow multi-threading (replace --enable-reentrant)
- * --disable-fortran don't building the fortran wrappers
- * --disable-static  don't build the static library
- * --disable-shared  don't build the shared library
- * --disable-tools   don't build fpack, funpack, imcopy, fitscopy, listhead
+ * --enable-threads  build with multi-threading (replace --enable-reentrant)
+ * --disable-fortran will not build the fortran wrappers
+ * --disable-static  will not build the static library
+ * --disable-shared  will not build the shared library
+ * --disable-tools   will not build fpack, funpack, imcopy, fitscopy, listhead
 
 To see the full list of changes, read the Changes.rst file.
