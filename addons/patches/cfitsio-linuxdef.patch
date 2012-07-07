@@ -1,0 +1,34 @@
+Use linux compiler and glibc definitions
+
+--- fitsio.h.orig
++++ fitsio.h
+@@ -49,7 +49,7 @@ SERVICES PROVIDED HEREUNDER."
+ #  define _MIPS_SZLONG 64
+ #endif
+ 
+-#if defined(linux) || defined(__APPLE__) || defined(__sgi)
++#if defined(__linux__) || defined(__APPLE__) || defined(__sgi)
+ #  include <sys/types.h>  /* apparently needed on debian linux systems */
+ #endif                    /* to define off_t                           */
+ 
+@@ -65,7 +65,7 @@ SERVICES PROVIDED HEREUNDER."
+ 
+ /*  Debian systems require the 2nd test, below,         */
+ /*  i.e, "(defined(linux) && defined(__off_t_defined))" */
+-#if defined(_OFF_T) || (defined(linux) && defined(__off_t_defined)) || defined(_MIPS_SZLONG) || defined(__APPLE__) || defined(_AIX)
++#if defined(_OFF_T) || (defined(__linux__) && defined(__off_t_defined)) || defined(_MIPS_SZLONG) || defined(__APPLE__) || defined(_AIX)
+ #    define OFF_T off_t
+ #elif defined(_MSC_VER) &&  (_MSC_VER>= 1400)
+ #    define OFF_T long long
+
+--- cfileio.c.orig
++++ cfileio.c
+@@ -70,7 +70,7 @@
+     /* Init the main fitsio lock here since we need a a recursive lock */
+ 
+     assert(!pthread_mutexattr_init(&mutex_init));
+-#ifdef linux
++#ifdef __GLIBC__
+     assert(!pthread_mutexattr_settype(&mutex_init,
+ 				     PTHREAD_MUTEX_RECURSIVE_NP));
+ #else
