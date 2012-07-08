@@ -9,7 +9,7 @@ for p in patches/*.patch; do
 done
 
 # remove upstream build system
-rm -f configure Makefile.in
+rm -f configure configure.in Makefile.in
 
 # make tar ball
 autoreconf -vi
