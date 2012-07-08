@@ -1,0 +1,34 @@
+#ifndef FITSIO_CONFIG_H
+#define FITSIO_CONFIG_H
+
+// We duplicate some of the config.h #define's here since they are
+// used in some of the header files cfitsio installs. 
+// The #ifndef/#endif are to avoid warnings about redefining these symbols.
+
+/* if you have flock_t */
+#ifndef HAVE_FLOCK_T
+#undef HAVE_FLOCK_T
+#endif
+
+/* Define to 1 if you have semun in sys/sem.h */
+#ifndef HAVE_UNION_SEMUN
+#undef HAVE_UNION_SEMUN
+#endif
+
+/* Define if you want Globus Toolkit gsiftp protocol support */
+#ifndef HAVE_GSIFTP
+#undef HAVE_GSIFTP
+#endif
+
+/* Define to yes if you have shared memory functions */
+#ifndef HAVE_SHMEM_SERVICES
+#undef HAVE_SHMEM_SERVICES
+#endif
+
+/* Define if you have POSIX threads libraries and header files. */
+#ifndef HAVE_PTHREAD
+#undef HAVE_PTHREAD
+#undef _REENTRANT
+#endif
+
+#endif
