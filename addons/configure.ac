@@ -98,7 +98,17 @@ else
    AC_MSG_RESULT([no])
 fi
 
-AX_ZLIB
+PKG_CHECK_MODULES(ZLIB, zlib, [ax_zlib_ok=yes], [ax_zlib_ok=no])
+if test x"$ax_zlib_ok" = x"no"; then
+   AX_ZLIB
+   PC_SHARED_LIBS=$ZLIB_LIBS
+   REQUIRES=
+else
+   PC_SHARED_LIBS=
+   REQUIRES="Requires: zlib"
+fi
+AC_SUBST(REQUIRES)
+AC_SUBST(PC_SHARED_LIBS)
 
 AC_SYS_LARGEFILE
 
