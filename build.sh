@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# need to run sync.sh before?
+# ./sync.sh
+tar xf cfitsio.tar.gz
+
 # copy and apply changes
 cp -r addons/* cfitsio/
 
@@ -12,8 +16,6 @@ done
 rm -f configure configure.in Makefile.in
 
 # make tar ball
-autoreconf -vi
-./configure
-make distcheck
+autoreconf -vi && ./configure && make distcheck
 popd
-mv cfitsio/cfitsio-*.tar.gz .
+[ -e cfitsio/cfitsio-*.tar.gz ] && mv cfitsio/cfitsio-*.tar.gz .

@@ -6,7 +6,7 @@ PV=${1}
 
 # sync cfitsio upstream
 wget -nc -c ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio${PV/./}.tar.gz
-tar xf cfitsio${PV/./}.tar.gz
+ln -sfn cfitsio${PV/./}.tar.gz cfitsio.tar.gz 
 
 # sync m4 macro
 wget http://git.savannah.gnu.org/cgit/autoconf-archive.git/plain/m4/ax_pthread.m4 \
