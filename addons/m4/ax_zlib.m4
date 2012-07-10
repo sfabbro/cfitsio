@@ -59,7 +59,7 @@ PKG_CHECK_MODULES(ZLIB, zlib, [ax_zlib_ok=yes], [ax_zlib_ok=no])
 if test x"$ax_zlib_ok" = x"no"; then
    # if neither pkg-config file found, nor ZLIB_LIBS defined
    if test x$ZLIB_LIBS = x ; then
-      ZLIB_LIBS="-lzlib -lm"
+      ZLIB_LIBS="-lz"
       AC_ARG_WITH([zlib-libdir],
 	 [  --with-zlib-libdir=DIR directory where the library was installed],
 	 [ZLIB_LIBS="-L$withval $ZLIB_LIBS"], )
