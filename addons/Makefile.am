@@ -8,9 +8,7 @@ MAINTAINERCLEANFILES = \
         config.h.in \
         autoconf/* \
         stamp-* \
-        cfitsio.pc \
-	fitsio_config.h.in \
-	fitsio_config.h
+        cfitsio.pc
 
 DISTCLEANFILES = \
 	$(BUILT_SOURCES) \
@@ -22,9 +20,7 @@ DISTCLEANFILES = \
 	speedcc.fit \
 	atestfil.fit \
 	ATESTFILEZ.FITS \
-	BTESTFILEZ.FITS \
-	fitsio_config.h.in \
-	fitsio_config.h
+	BTESTFILEZ.FITS
 
 lib_LTLIBRARIES = libcfitsio.la
 
@@ -54,8 +50,7 @@ AM_YFLAGS = -d -v
 ACLOCAL_AMFLAGS = -I m4
 
 include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
-nodist_include_HEADERS = fitsio_config.h
-noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h  group.h \
+noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h group.h \
 	eval_tab.h fpack.h grparser.h region.h
 
 libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS) $(noinst_HEADERS)

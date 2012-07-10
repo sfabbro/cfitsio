@@ -1,7 +1,7 @@
 AC_INIT([cfitsio],[3.300],[William.D.Pence@nasa.gov])
 
 AC_CONFIG_SRCDIR([fitscore.c])
-AC_CONFIG_HEADERS([config.h fitsio_config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR(autoconf)
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_MACRO_DIR([m4])

@@ -1,56 +1,38 @@
-Include fitsio_config.h header wherever we have config time definitions
-
---- drvrgsiftp.c.orig
-+++ drvrgsiftp.c
-@@ -2,6 +2,8 @@
+--- drvrgsiftp.c.orig	2011-01-23 20:05:28.000000000 +0000
++++ drvrgsiftp.c	2011-01-22 17:18:01.000000000 +0000
+@@ -2,6 +2,10 @@
  /*  This file, drvrgsiftp.c contains driver routines for gsiftp files. */
  /*  Andrea Barisani <lcars@si.inaf.it>                                 */
  /* Taffoni Giuliano <taffoni@oats.inaf.it>                             */
-+#include "fitsio_config.h"
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
 +
  #ifdef HAVE_NET_SERVICES
  #ifdef HAVE_GSIFTP
  
---- drvrnet.c.orig
-+++ drvrnet.c
-@@ -147,6 +147,7 @@
+--- drvrnet.c.orig	2011-01-23 20:05:42.000000000 +0000
++++ drvrnet.c	2011-01-22 17:13:42.000000000 +0000
+@@ -147,6 +147,9 @@
  
     
   */
-+#include "fitsio_config.h"
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
  
  #ifdef HAVE_NET_SERVICES
  #include <string.h>
---- drvrsmem.c.orig
-+++ drvrsmem.c
-@@ -12,6 +12,8 @@
+--- drvrsmem.c.orig	2011-01-23 20:05:57.000000000 +0000
++++ drvrsmem.c	2011-01-22 17:19:05.000000000 +0000
+@@ -12,6 +12,10 @@
              no shmem segments remain, and last process terminates
  */
  
-+#include "fitsio_config.h"
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
 +
  #ifdef HAVE_SHMEM_SERVICES
  #include "fitsio2.h"                         /* drvrsmem.h is included by it */
  
---- drvrsmem.h.orig
-+++ drvrsmem.h
-@@ -18,6 +18,8 @@
- #include <sys/fcntl.h>
- #endif
- 
-+#include "fitsio_config.h"
-+
- 		/* configuration parameters */
- 
- #define	SHARED_MAXSEG	(16)		/* maximum number of shared memory blocks */
---- fitsio2.h.orig
-+++ fitsio2.h
-@@ -1,6 +1,8 @@
- #ifndef _FITSIO2_H
- #define _FITSIO2_H
-  
-+#include "fitsio_config.h"
-+
- #include "fitsio.h"
- 
- /* 
