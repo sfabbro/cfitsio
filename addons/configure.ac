@@ -9,10 +9,10 @@ AC_CANONICAL_HOST
 
 AC_PROG_YACC
 AC_PROG_LEX
-AC_PROG_SED
+dnl AC_PROG_SED
 dnl AC_PROG_SED is available only in autoconf 2.60 and later.
 dnl With older autoconf, assume that 'sed' is ok.
-dnl ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed AC_SUBST(SED)])
+ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed AC_SUBST(SED)])
 
 AC_MSG_CHECKING([whether to enable fortran interface])
 AC_ARG_ENABLE([fortran],
@@ -59,9 +59,10 @@ else
 fi
 AM_CONDITIONAL([ENABLE_TOOLS], [test x$enable_tools = xyes])
 
-dnl disable cxx libtool check
-define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
-LT_INIT
+ifdef([LT_INIT], 
+      [LT_INIT LT_LANG([C])],
+      [define([AC_LIBTOOL_LANG_CXX_CONFIG], [:]) AC_PROG_LIBTOOL])
+
 dnl no api version info, so simply copy package version
 SHARED_VERSION_INFO="3:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
@@ -74,7 +75,7 @@ AC_ARG_ENABLE([threads],
 
 if test x"$enable_threads" != xno; then
    AC_MSG_RESULT([yes])
-   AX_PTHREAD(, [AC_MSG_ERROR([POSIX Threads library not found.])])
+   AX_PTHREAD(, [AC_MSG_ERROR([ *** POSIX Threads library not found.])])
    LIBS="$PTHREAD_LIBS $LIBS"
    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
    CC="$PTHREAD_CC"
@@ -100,7 +101,7 @@ fi
 
 PKG_CHECK_MODULES(ZLIB, zlib, [ax_zlib_ok=yes], [ax_zlib_ok=no])
 if test x"$ax_zlib_ok" = x"no"; then
-   AX_ZLIB
+   AX_ZLIB(,[AC_MSG_ERROR([ *** zlib headers and/or library not found])])
    PC_SHARED_LIBS=$ZLIB_LIBS
    REQUIRES=
 else
