@@ -4,7 +4,7 @@ Changes from upstream cfitsio
 Here is the list of differences with the HEASARC, NASA/GSFC cfitsio
 upstream [1]:
 
-* zlib is unbundled and system libraries are checked
+* zlib is unbundled and cfitsio is linked to zlib system libraries 
 
 * the listhead exec has been re-introduced (it was removed from upstream
   3.270 and above)
@@ -17,6 +17,7 @@ upstream [1]:
 * the ax_cfitsio.m4 file which can be used in packages with autoconf
   depending on cfitsio
 
+Other internal fixes are listed below.
 
 Build system
 ------------
@@ -25,8 +26,8 @@ Build system
   compiler and linker platform wrapping and shared/static easiness of
   building.
 
-* The ax_zlib.m4 macro is used to check the stock zlib compatibility,
-  by first check pkg-config file.
+* A new ax_zlib.m4 macro is used to check the stock zlib compatibility,
+  by first checking a pkg-config file.
 
 * The executable tools fpack, funpack, imcopy, fitscopy, and listhead are
   built by default. Disable with --without-tools.
@@ -37,20 +38,20 @@ Build system
 * The Globus ftp detection (--with-gsiftp option) has been rewritten
 
 * Threading uses a more standard autoconf macro ax_pthread.m4 from the
-  autoconf archive [2], resulting in the option --enable-threads
-  instead of --enable-reentrant
+  autoconf archive [2], resulting in the more intuitive option
+  --enable-threads instead of --enable-reentrant
 
 * simple unit testing now can be compiled and executed with "make check"
 
-* use of more standard and modern autoconf macros to check for
-  existing functions and libraries
+* Modern and portable autoconf macros are used to check existing
+  functions and libraries
 
-* use of autoheader to generate fitsio_config.h at configure
+* Use of autoheader to generate fitsio_config.h at configure
   time that will be installed. Packages dependent on cfitsio can
   therefore check whether cfitsio was compiled with a specific
   feature
 
-* the generated parsing files (eval_*) are now built using the BUILT_SOURCES
+* The generated parsing files (eval_*) are now built using the BUILT_SOURCES
   feature of automake.
 
 * pkg-config file uses all libraries and is versioned at configure time
@@ -59,10 +60,17 @@ Build system
 Code fixes
 ----------
 
-We try to keep synchronized with upstream as much as possible, but
-Some patches can be applied to the code itself if we think they are
-necessary. They are sometimes located in the changes/patches
-directory. They can come from users or other distributions ([3],[4]).
+We try to keep synchronized with upstream as much as possible.
+Some patches are applied to the code itself if we think they are
+necessary. If we apply patches, they will be located in the addons/patches
+directory. Some are from Gentoo, other are inspired from users or
+other distributions ([3],[4]).
+
+Note
+----
+
+We have tried twice to give upstream some hints that some of this work
+could be applied, but have never got any answer. Feel free to lobby.
 
 
 References
