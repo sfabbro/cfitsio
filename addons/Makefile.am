@@ -92,8 +92,8 @@ cookbookf77_FFLAGS = -W
 testprogs += testf77
 endif
 
-EXTRA_DIST = README.rst Changes.rst README README.MacOS README.win32 \
-	License.txt changes.txt \
+EXTRA_DIST = README.github.rst Changes.github.rst \
+	README README.MacOS README.win32 License.txt changes.txt \
 	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
 	cfitsio.pdf  fitsio.pdf  quick.pdf fpackguide.pdf \
 	eval.l eval.y cookbook.f \

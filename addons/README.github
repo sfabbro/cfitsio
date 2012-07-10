@@ -7,7 +7,7 @@ This is a repackaging of the FITS I/O library cfitsio using modern
 autotools and some other minor changes, mostly to satisfy Linux
 distributions QA, but also usability and robustness.
 
-To see the full list of changes, read the Changes.rst file.
+To see the full list of changes, read the Changes.github.rst file.
 
 To build cfitsio, use the traditional commands:
 

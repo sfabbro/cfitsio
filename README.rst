@@ -1,1 +1,0 @@
-addons/README.rst
