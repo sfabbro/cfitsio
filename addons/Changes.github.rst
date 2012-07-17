@@ -7,6 +7,11 @@ upstream [1]:
 Build system
 ------------
 
+Changes to the build system are included in the configure.ac and
+Makefile.am files. Compare these files to the original configure.in
+and Makefile.in, or read below for a list of changes.
+
+
 * Use of libtool, which comes with all the libtool goodness and
   portability for compiler and linker platform wrapping and
   shared/static easiness of building.
@@ -35,7 +40,7 @@ Build system
   functions and libraries
 
 * Use of autoheader to generate config.h at configure time that will
-  be used at compile time for all macros HAVE_* definitions
+  be used at compile time for the preprocessing macros HAVE_* definitions
 
 * The generated parsing files (eval_*) are now built using the BUILT_SOURCES
   feature of automake.
@@ -47,16 +52,10 @@ Code fixes
 ----------
 
 We try to keep synchronized with upstream as much as possible.
-Some patches are applied to the code itself if we think they are
-necessary. If we apply patches, they will be located in the addons/patches
+Some patches might be applied to the C code itself if we think they are
+necessary. All patches are located in the addons/patches
 directory. Some are from Gentoo, other are inspired from users or
 other distributions ([3],[4]).
-
-Note
-----
-
-We have tried twice to give upstream some hints that some of this work
-could be applied, but have never got any answer. Feel free to lobby.
 
 
 References
