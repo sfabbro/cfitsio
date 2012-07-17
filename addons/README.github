@@ -25,3 +25,6 @@ following extra options for the user:
   --disable-shared  : will not build the shared library
   --disable-tools   : will not build fpack, funpack, imcopy, fitscopy, listhead
 
+
+If you are using this cfitsio directly from a clone of the git
+repository on github, read INSTALL.git.
