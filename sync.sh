@@ -13,4 +13,4 @@ wget http://git.savannah.gnu.org/cgit/autoconf-archive.git/plain/m4/ax_pthread.m
     -O addons/m4/ax_pthread.m4 
 
 # update version number
-sed -i -e "/AC_INIT/s/[[:digit:]].[[:digit:]]{3}/${PV}/" addons/configure.ac
+sed -i -e "/AC_INIT/s/[[:digit:]]\.[[:digit:]]\{3\}/${PV}/" addons/configure.ac
