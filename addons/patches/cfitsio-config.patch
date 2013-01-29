@@ -36,3 +36,17 @@
  #ifdef HAVE_SHMEM_SERVICES
  #include "fitsio2.h"                         /* drvrsmem.h is included by it */
  
+--- cfileio.c.orig	2013-01-29 15:33:39.000000000 -0800
++++ cfileio.c	2013-01-29 15:34:28.000000000 -0800
+@@ -10,6 +10,11 @@
+ #include <ctype.h>
+ #include <errno.h>
+ #include <stddef.h>  /* apparently needed to define size_t */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #include "fitsio2.h"
+ #include "group.h"
+ 
