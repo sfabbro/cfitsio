@@ -1,8 +1,14 @@
 #!/bin/sh
 
 # need to run sync.sh before?
-# ./sync.sh
-tar xf cfitsio.tar.gz
+[ $# -ge 1 ] &&  ./sync.sh $1
+
+if [ -e cfitsio.tar.gz ]; then
+    tar xf cfitsio.tar.gz
+else
+    echo "missing tar file, sync or provide a version"
+    exit 1
+fi
 
 # copy and apply changes
 cp -r addons/* cfitsio/
