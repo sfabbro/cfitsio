@@ -37,21 +37,22 @@ C_SOURCES = \
 	swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
 	pliocomp.c fits_hcompress.c fits_hdecompress.c zuncompress.c zcompress.c
 
-if WITH_GSIFTP
-C_SOURCES += drvrgsiftp.c drvrgsiftp.h
-endif
-
-F77_SOURCES=
-if ENABLE_FORTRAN
-F77_SOURCES += f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c f77_wrap.h
-endif
-
 AM_YFLAGS = -d -v
 ACLOCAL_AMFLAGS = -I m4
 
 include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
 noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h group.h \
 	eval_tab.h fpack.h grparser.h region.h
+
+if WITH_GSIFTP
+C_SOURCES += drvrgsiftp.c
+include_HEADERS += drvrgsiftp.h
+endif
+
+F77_SOURCES=
+if ENABLE_FORTRAN
+F77_SOURCES += f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c f77_wrap.h
+endif
 
 libcfitsio_la_SOURCES = $(C_SOURCES) $(F77_SOURCES) $(include_HEADERS) $(noinst_HEADERS)
 libcfitsio_la_CPPFLAGS = @GSIFTP_CFLAGS@ @ZLIB_CFLAGS@
