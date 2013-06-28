@@ -1,4 +1,4 @@
-AC_INIT([cfitsio],[3.330],[William.D.Pence@nasa.gov])
+AC_INIT([cfitsio],[3.350],[William.D.Pence@nasa.gov])
 
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_HEADERS([config.h])
@@ -64,7 +64,7 @@ ifdef([LT_INIT],
       [define([AC_LIBTOOL_LANG_CXX_CONFIG], [:]) AC_PROG_LIBTOOL])
 
 dnl no api version info, so simply copy package version
-SHARED_VERSION_INFO="3:0:0"
+SHARED_VERSION_INFO="1:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
 AC_MSG_CHECKING([whether to enable POSIX threads])
