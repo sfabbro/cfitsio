@@ -15,6 +15,7 @@ cp -r addons/* cfitsio/
 
 pushd cfitsio
 for p in patches/*.patch; do
+    echo ">> Applying $p"
     patch -p0 < ${p}
 done
 
