@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-# need to run sync.sh before?
-[ $# -ge 1 ] &&  ./sync.sh $1
+# need to run sync.bash before?
+[ $# -ge 1 ] &&  ./sync.bash $1
 
 if [ -e cfitsio.tar.gz ]; then
     tar xf cfitsio.tar.gz
