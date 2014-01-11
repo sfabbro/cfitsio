@@ -1,4 +1,4 @@
-AC_INIT([cfitsio],[3.350],[William.D.Pence@nasa.gov])
+AC_INIT([cfitsio],[3.360],[William.D.Pence@nasa.gov])
 
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_HEADERS([config.h])

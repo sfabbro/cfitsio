@@ -35,7 +35,7 @@ C_SOURCES = \
 	putcolj.c putcolk.c putcoluk.c putcoll.c putcols.c putcolsb.c \
 	putcolu.c putcolui.c putcoluj.c putkey.c region.c scalnull.c \
 	swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
-	pliocomp.c fits_hcompress.c fits_hdecompress.c zuncompress.c zcompress.c
+	pliocomp.c fits_hcompress.c fits_hdecompress.c zlib/zuncompress.c zlib/zcompress.c
 
 AM_YFLAGS = -d -v
 ACLOCAL_AMFLAGS = -I m4
@@ -89,9 +89,9 @@ testprogs += testf77
 endif
 
 EXTRA_DIST = README.github Changes.github.rst \
-	README README.MacOS README.win32 License.txt changes.txt \
-	cfitsio.doc fitsio.doc cfitsio.tex fitsio.tex quick.tex \
-	cfitsio.pdf  fitsio.pdf  quick.pdf fpackguide.pdf \
+	README README.MacOS README.win README_OLD.win License.txt docs/changes.txt \
+	docs/cfitsio.doc docs/fitsio.doc docs/cfitsio.tex docs/fitsio.tex docs/quick.tex \
+	docs/cfitsio.pdf docs/fitsio.pdf docs/quick.pdf docs/fpackguide.pdf \
 	eval.l eval.y cookbook.f \
 	testf77.std testprog.tpt testprog.std testf77.out testprog.out \
 	iter_a.c iter_b.c iter_c.c iter_image.c iter_var.c \
