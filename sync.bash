@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 [ $# -lt 1 ] && echo "$0 <cfitsio version>" && exit
 
