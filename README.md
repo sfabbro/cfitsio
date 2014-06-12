@@ -1,4 +1,3 @@
-=======
 CFITSIO
 =======
 
@@ -7,17 +6,23 @@ This is a repackaging of the FITS I/O library cfitsio using modern
 autotools and some other minor changes, mostly to satisfy Linux
 distributions QA, but also usability and robustness.
 
-To see the full list of changes, read the Changes.github.rst file.
+The cfitsio tar balls can be fetched from this directory:
+
+http://dev.gentoo.org/~bicatali/distfiles/
+
+To see the full list of changes with respect to HEASARC CFITSIO
+library, read the Changes.md file.
 
 To build cfitsio, use the traditional commands:
+```
+  $ ./configure
+  $ make
+  $ make check [will test cfitsio]
+  $ make install
+```
 
- >  ./configure
- >  make
- >  make check [will test cfitsio]
- >  make install
-
-To see options to build cfitsio, run configure --help. There are the
-following extra options for the user:
+To see the list of all options to build cfitsio, run configure
+--help. We introduced the following new options for the user:
 
   --enable-threads  : build with multi-threading (replace --enable-reentrant)
   --disable-fortran : will not build the fortran wrappers
@@ -27,4 +32,4 @@ following extra options for the user:
 
 
 If you are using this cfitsio directly from a clone of the git
-repository on github, read INSTALL.git.
+repository on github, read INSTALL.md.
