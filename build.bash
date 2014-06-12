@@ -1,20 +1,11 @@
 #!/bin/bash
 
-# need to run sync.bash before?
-[ $# -ge 1 ] &&  ./sync.bash $1
-
-if [ -e cfitsio.tar.gz ]; then
-    tar xf cfitsio.tar.gz
-else
-    echo "missing tar file, sync or provide a version"
-    exit 1
-fi
-
 # copy and apply changes
-cp -r addons/* cfitsio/
+cp -r autotools/* cfitsio/
+cp README.md Changes.md cfitsio/
 
 pushd cfitsio
-for p in patches/*.patch; do
+for p in ../patches/*.patch; do
     echo ">> Applying $p"
     patch -p0 < ${p}
 done
