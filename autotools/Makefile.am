@@ -35,16 +35,14 @@ C_SOURCES = \
 	putcolj.c putcolk.c putcoluk.c putcoll.c putcols.c putcolsb.c \
 	putcolu.c putcolui.c putcoluj.c putkey.c region.c scalnull.c \
 	swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
-	pliocomp.c fits_hcompress.c fits_hdecompress.c \
-	simplerng.c \
-	zlib/zuncompress.c zlib/zcompress.c
+	pliocomp.c fits_hcompress.c fits_hdecompress.c zlib/zuncompress.c zlib/zcompress.c
 
 AM_YFLAGS = -d -v
 ACLOCAL_AMFLAGS = -I m4
 
 include_HEADERS = fitsio.h fitsio2.h longnam.h drvrsmem.h
 noinst_HEADERS = cfortran.h eval_defs.h f77_wrap.h group.h \
-	eval_tab.h fpack.h grparser.h region.h simplerng.h
+	eval_tab.h fpack.h grparser.h region.h
 
 if WITH_GSIFTP
 C_SOURCES += drvrgsiftp.c
@@ -90,7 +88,7 @@ cookbookf77_FFLAGS = -W
 testprogs += testf77
 endif
 
-EXTRA_DIST = README.md CHANGES.md \
+EXTRA_DIST = README.github Changes.github.rst \
 	README README.MacOS README.win README_OLD.win License.txt docs/changes.txt \
 	docs/cfitsio.doc docs/fitsio.doc docs/cfitsio.tex docs/fitsio.tex docs/quick.tex \
 	docs/cfitsio.pdf docs/fitsio.pdf docs/quick.pdf docs/fpackguide.pdf \
