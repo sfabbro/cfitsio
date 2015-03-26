@@ -11,20 +11,21 @@ Almost all changes to the build system are included in the configure.ac and
 Makefile.am files. Compare these files to the original configure.in
 and Makefile.in, or read below for a list of changes.
 
-
 * Use of libtool which adds portability for compiler and linker
   platform wrapping, shared libraries building with PIC, static
   without PIC.
 
 * zlib is unbundled and cfitsio is linked to zlib system libraries.
-  A new ax_zlib.m4 macro is used to check the stock zlib compatibility,
-  by first checking the existence of the pkg-config file.
 
 * The executable tools fpack, funpack, imcopy, fitscopy, and listhead are
   built by default. The compiling can be disabled at configure time
-  with the option "--without-tools". The listhead exec has been re-introduced (it was removed from upstream 3.270 and above).
+  with the option "--without-tools". The listhead exec has been
+  re-introduced (it was removed from upstream 3.270 and above).
 
 * An option to build cfitsio without fortran (--disable-fortran) has
+  been introduced.
+
+* An option to build cfitsio without bzip2 (--without-bzip2) has
   been introduced.
 
 * The Globus ftp detection (--with-gsiftp option) has been rewritten
@@ -42,7 +43,7 @@ and Makefile.in, or read below for a list of changes.
   functions and libraries.
 
 * Use of autoheader to generate config.h at configure time that will
-  be used at compile time for the preprocessing macros HAVE_* definitions.
+  be used at compile time for the preprocessing HAVE_* definitions.
 
 * The generated parsing files are now built using the BUILT_SOURCES
   feature of automake for robustness.
