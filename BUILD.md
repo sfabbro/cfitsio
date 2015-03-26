@@ -1,19 +1,22 @@
-To build this fork of cfitsio from the git directory, do the following: 
+Building a cfitsio tar ball
+===========================
+
+To build this packaging of cfitsio from the git directory:
 
 1. Sync with all the upstream sources:
 
- $ ./sync.sh <cfitsio version>
-
-Ex: sync.sh 3.300
+ $ ./sync.bash
 
 2. Build the new tar ball:
 
- $ ./build.sh
+ $ ./build.bash
 
+It should work. If not: file a pull request or an issue.
 
 Requirements:
 
   * A C compiler
-  * zlib (and zlib-dev on some distros)
-  * pkgconfig
+  * flex, bison, libtool, pkgconfig, automake, autoconf
+  * zlib (zlib-dev on some distros)
+  * Optional: bzip2 library (libbz2-dev on some distros)
   * Optional: a fortran compiler
