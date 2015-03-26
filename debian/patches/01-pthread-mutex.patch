@@ -1,0 +1,11 @@
+--- a/cfileio.c
++++ b/cfileio.c
+@@ -81,7 +81,7 @@
+         return(status);
+     }
+ 
+-#ifdef linux
++#ifdef __GLIBC__
+     status = pthread_mutexattr_settype(&mutex_init,
+ 				     PTHREAD_MUTEX_RECURSIVE_NP);
+ #else

@@ -1,0 +1,14 @@
+Document: cfitsio-quick
+Title: CFITSIO Quick Start Guide
+Author: Dr. William Pence <pence@tetra.gsfc.nasa.gov>
+Abstract: This is the CFITSIO Quick Start Guide. Cfitsio is a C library for
+ reading and writing FITS format data files. FITS (Flexible Image
+ Transport System) is a data format most used in astronomy. 
+Section: Programming
+
+Format: postscript
+Files: /usr/share/doc/libcfitsio-doc/quick.ps.gz
+
+Format: HTML
+Index: /usr/share/doc/libcfitsio-doc/quick/index.html
+Files: /usr/share/doc/libcfitsio-doc/quick/*.html

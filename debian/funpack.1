@@ -1,0 +1,50 @@
+.TH funpack "1" "April 2014" "CFITSIO version 3.370" "User Commands"
+.SH NAME
+funpack \- FITS image decompression program
+.SH SYNOPSYS
+.B funpack
+[\fIOPTION\fR]... \fIFILE\fR...
+.SH DESCRIPTION
+.PP
+.B funpack
+is an utility to restore a compressed FITS image file back to its original state.
+.SH OPTIONS
+.PP
+Flags must be separate and appear before filenames. Use '\-' to read from stdin.
+.TP
+\fB\-E\fR \fIHDUlist\fR Unpack only the list of HDU names or numbers in the file.
+.TP
+\fB\-P\fR \fIpre\fR
+Prepend \fIpre\fR to create new output filenames.
+.TP
+\fB\-O\fR \fIname\fR
+Specify full output file name.
+.TP
+\fB\-Z\fR
+Recompress the output file with host GZIP program.
+.TP
+\fB\-F\fR
+Overwrite input file by output file with same name.
+.TP
+\fB\-D\fR
+Delete input file after writing output.
+.TP
+\fB\-S\fR
+Output uncompressed file to STDOUT file stream.
+.TP
+\fB\-L\fR
+List contents, files unchanged.
+.TP
+\fB\-C\fR
+Don't update FITS checksum keywords.
+.TP
+\fB\-v\fR
+Verbose mode; list each file as it is processed.
+.TP
+\fB\-H\fR
+Show this message.
+.TP
+\fB\-V\fR
+Show version number.
+.SH "SEE ALSO"
+\fBfpack\fP(1), \fBfitscopy\fP(1).

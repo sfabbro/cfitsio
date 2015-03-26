@@ -1,0 +1,15 @@
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -119,10 +119,10 @@
+ 		${CC} $(LDFLAGS) $(DEFS) -o testprog testprog.o -L. -lcfitsio -lm -lz ${LIBS}
+ 
+ fpack:		fpack.o fpackutil.o libcfitsio.a ${OBJECTS}
+-		${CC} $(LDFLAGS) $(DEFS) -o fpack fpack.o fpackutil.o libcfitsio.a -lm -lz ${LIBS}
++		${CC} $(LDFLAGS) $(DEFS) -o fpack fpack.o fpackutil.o -L. -lcfitsio -lm -lz ${LIBS}
+ 
+ funpack:	funpack.o fpackutil.o libcfitsio.a ${OBJECTS}
+-		${CC} $(LDFLAGS) $(DEFS) -o funpack funpack.o fpackutil.o libcfitsio.a -lm -lz ${LIBS}
++		${CC} $(LDFLAGS) $(DEFS) -o funpack funpack.o fpackutil.o -L. -lcfitsio -lm -lz ${LIBS}
+ 
+ fitscopy:	fitscopy.o libcfitsio.a ${OBJECTS}
+ 		${CC} $(LDFLAGS) $(DEFS) -o fitscopy fitscopy.o -L. -lcfitsio -lm -lz ${LIBS}

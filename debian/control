@@ -1,0 +1,110 @@
+Source: cfitsio
+Section: devel
+Priority: optional
+Maintainer: Aurelien Jarno <aurel32@debian.org>
+Build-Depends: debhelper (>= 9), dh-autoreconf, gfortran, cfortran, zlib1g-dev, libbz2-dev
+Build-Depends-indep: hevea, texlive
+Standards-Version: 3.9.5
+
+Package: libcfitsio2
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: shared library for I/O with FITS format data files
+ FITS (Flexible Image Transport System) is a data format most used in
+ astronomy. cfitsio is a library of ANSI C routines for reading and
+ writing FITS format data files.  A set of Fortran-callable wrapper
+ routines are also included for the convenience of Fortran
+ programmers.
+ .
+ This package contains what you need to run programs that use this
+ library.
+
+Package: libcfitsio2-dbg
+Section: debug
+Priority: extra
+Architecture: any
+Multi-Arch: same
+Depends: libcfitsio2 (= ${binary:Version}), ${misc:Depends}
+Description: library for I/O with FITS format data files (debugging symbols)
+ FITS (Flexible Image Transport System) is a data format most used in
+ astronomy. cfitsio is a library of ANSI C routines for reading and
+ writing FITS format data files.  A set of Fortran-callable wrapper
+ routines are also included for the convenience of Fortran
+ programmers.
+ .
+ This package provides debugging symbols. It is provided  primarily to 
+ provide a backtrace with names in a debugger, this makes it somewhat 
+ easier to interpret core dumps.
+
+Package: libcfitsio-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libcfitsio2 (= ${binary:Version}), ${misc:Depends}
+Replaces: libcfitsio3-dev (<< 3.340-3)
+Breaks: libcfitsio3-dev (<< 3.340-3)
+Recommends: libcfitsio-doc
+Description: library for I/O with FITS format data files (development files) 
+ FITS (Flexible Image Transport System) is a data format most used in
+ astronomy. cfitsio is a library of ANSI C routines for reading and
+ writing FITS format data files.  A set of Fortran-callable wrapper
+ routines are also included for the convenience of Fortran
+ programmers.
+ .
+ This package contains what you need for compiling sources that
+ use this library in your own code.
+
+Package: libcfitsio-bin
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: CFITSIO based utilities
+ FITS (Flexible Image Transport System) is a data format most used in
+ astronomy. cfitsio is a library of ANSI C routines for reading and
+ writing FITS format data files.  A set of Fortran-callable wrapper
+ routines are also included for the convenience of Fortran
+ programmers.
+ .
+ This package contains utility programs, based on CFITSIO, namely
+ fitscopy, fpack and funpack.
+
+Package: libcfitsio-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}
+Suggests: libcfitsio-dev
+Replaces: libcfitsio3-doc (<< 3.340-3)
+Breaks: libcfitsio3-doc (<< 3.340-3)
+Description: documentation for CFITSIO
+ FITS (Flexible Image Transport System) is a data format most used in
+ astronomy. cfitsio is a library of ANSI C routines for reading and
+ writing FITS format data files.  A set of Fortran-callable wrapper
+ routines are also included for the convenience of Fortran
+ programmers.
+ .
+ This package contains the CFITSIO User's Guide and QuickStart Guide
+ in html, postscript and text formats, and contains documentation on
+ how to use the library in your programs. It also contains example
+ source files that demonstrate the use of CFITSIO.
+
+#
+# Transitional packages, can be removed after the Jessie release
+#
+Package: libcfitsio3-dev
+Architecture: all
+Section: oldlibs
+Priority: extra
+Depends: libcfitsio-dev (>= ${source:Version}), ${misc:Depends}
+Description: Transitional package for libcfitsio-dev
+ This is a transitional package for libcfitsio-dev, and can be safely
+ removed after the installation is complete.
+
+Package: libcfitsio3-doc
+Architecture: all
+Section: oldlibs
+Priority: extra
+Depends: libcfitsio-doc (>= ${source:Version}), ${misc:Depends}
+Description: Transitional package for libcfitsio-doc
+ This is a transitional package for libcfitsio-doc, and can be safely
+ removed after the installation is complete.

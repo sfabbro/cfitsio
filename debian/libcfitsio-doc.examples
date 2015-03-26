@@ -1,0 +1,6 @@
+debian/README.examples
+cookbook.c
+imcopy.c
+smem.c
+speed.c
+testprog.c

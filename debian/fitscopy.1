@@ -1,0 +1,50 @@
+.TH fitscopy "1" "April 2014" "CFITSIO version 3.370" "User Commands"
+.SH NAME
+fitscopy \- copy FITS files with optional filtering
+.SH SYNOPSIS
+.B fitscopy \fIinputfile\fR \fIoutputfile\fR
+.SH DESCRIPTION
+Copy an input file to an output file, optionally filtering the file in the 
+process. This seemingly simple program can apply powerful filters which
+transform the input file as it is being copied. Filters may be used to 
+extract a subimage from a larger image, select rows from a table, filter a
+table with a GTI time extension or a SAO region file, create or delete
+columns in a table, create an image by binning (histogramming) 2 table 
+columns, and convert IRAF format *.imh or raw binary data files into FITS
+images.
+.SH EXAMPLES
+.TP
+simple file copy
+.B fitscopy in.fit out.fit
+.TP
+stdin to stdout
+.B fitscopy \- \-
+.TP
+copy a subimage
+.B fitscopy in.fit[11:50,21:60] out.fit
+.TP
+IRAF image to FITS
+.B fitscopy iniraf.imh out.fit
+.TP
+raw array to FITS
+.B fitscopy in.dat[i512,512] out.fit
+.TP
+copy rows with pi>35
+.B fitscopy in.fit[events][pi>35] out.fit
+.TP
+bin an image
+.B fitscopy in.fit[events][bin X,Y] out.fit
+.TP
+new x column
+.B fitscopy in.fit[events][col x=.9*y] out.fit
+.TP
+time filter
+.B fitscopy in.fit[events][gtifilter()] out.fit
+.TP
+spatial filter
+.B fitscopy in.fit[2][regfilter("pow.reg")] out.fit
+.PP
+Note that it may be necessary to enclose the input file name
+in single quote characters on the Unix command line.
+.SH "SEE ALSO"
+\fBfpack\fP(1), \fBfunpack\fP(1).

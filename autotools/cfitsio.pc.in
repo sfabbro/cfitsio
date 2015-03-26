@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: cfitsio
 Description: FITS File Subroutine Library
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lcfitsio @PC_SHARED_LIBS@
-Libs.private: @LIBS@
+Libs: -L${libdir} -lcfitsio
+Libs.private: @LIBS@ @PC_SHARED_LIBS@
 Cflags: -I${includedir}
 @REQUIRES@

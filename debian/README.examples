@@ -1,0 +1,11 @@
+To compile some of the example programs included here, copy the example 
+C program to your directory, and then complile it. For say the cookbook 
+program, after copying:
+
+$ gcc cookbook.c -o cookbook -lcfitsio
+
+Some documentation on the example C files can be found in the libcfitsio-doc 
+package.
+
+Gopal Narayanan <gopal@debian.org>
+
