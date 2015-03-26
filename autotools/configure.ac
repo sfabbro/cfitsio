@@ -1,17 +1,22 @@
-AC_INIT([cfitsio],[3.360],[William.D.Pence@nasa.gov])
+AC_INIT([cfitsio], [3.37], [William.D.Pence@nasa.gov])
 
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR(autoconf)
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 
-AC_PROG_YACC
-AC_PROG_LEX
-dnl AC_PROG_SED
-dnl AC_PROG_SED is available only in autoconf 2.60 and later.
-dnl With older autoconf, assume that 'sed' is ok.
+AX_PROG_BISON([],
+              [AS_IF([test ! -f "eval_y.c"],
+                     [AC_MSG_ERROR([bison not found, unable to compile eval_y])])])
+AX_PROG_FLEX([],
+             [AS_IF([test ! -f "eval_l.c"],
+                    [AC_MSG_ERROR([flex not found, unable to compile eval_l])])])
+
+# AC_PROG_SED
+# AC_PROG_SED is available only in autoconf 2.60 and later.
+# With older autoconf, assume that 'sed' is ok.
 ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed AC_SUBST(SED)])
 
 AC_MSG_CHECKING([whether to enable fortran interface])
@@ -61,13 +66,15 @@ AM_CONDITIONAL([ENABLE_TOOLS], [test x$enable_tools = xyes])
 
 ifdef([LT_INIT], 
       [LT_INIT LT_LANG([C])],
-      [define([AC_LIBTOOL_LANG_CXX_CONFIG], [:]) AC_PROG_LIBTOOL])
+      [define([AC_LIBTOOL_LANG_CXX_CONFIG], [:]) LT_INIT])
 
-dnl no api version info, so simply copy package version
-SHARED_VERSION_INFO="1:0:0"
+
+# Version number for libtool shared libraries. Libtool wants a string
+# of the form CURRENT:REVISION:AGE.
+# cfitsio upstream does not care much about revision and age just yet.
+SHARED_VERSION_INFO="2:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
-AC_MSG_CHECKING([whether to enable POSIX threads])
 AC_ARG_ENABLE([threads],
    [AS_HELP_STRING([--disable-threads], [Disable POSIX threads])],
    [enable_threads=$enableval],
@@ -92,22 +99,38 @@ AC_ARG_ENABLE([hera],
 		   [enable_hera=$enableval],
                    [enable_hera=no])
 
-# not much, hera has to define what to do with it
+## not much, hera has to define what to do with it
 if test x"$enable_hera" != xno; then
    AC_MSG_RESULT([yes])
+   AC_DEFINE(BUILD_HERA, [yes], [Build for HERASOFT])
 else
    AC_MSG_RESULT([no])
 fi
 
-PKG_CHECK_MODULES(ZLIB, zlib, [ax_zlib_ok=yes], [ax_zlib_ok=no])
-if test x"$ax_zlib_ok" = x"no"; then
-   AX_ZLIB(,[AC_MSG_ERROR([ *** zlib headers and/or library not found])])
-   PC_SHARED_LIBS=$ZLIB_LIBS
-   REQUIRES=
-else
-   PC_SHARED_LIBS=
-   REQUIRES="Requires: zlib"
+## Check for mandatory zlib
+AX_PKG_LIB([zlib],
+	[zlib.h],
+	[z], 
+	[inflateEnd], 
+	[],
+	[AC_MSG_ERROR([Cannot find zlib library or headers])])
+
+AC_ARG_WITH([bzip2], 
+    [AS_HELP_STRING([--without-bzip2],[Do not build the bzip2 loadear])],
+     [with_bzip2=$withval],
+     [with_bzip2=yes])
+
+if test x$with_bzip2 = xyes; then
+    AX_PKG_LIB([bzip2],
+		[bzlib.h],
+		[bz2],
+		[BZ2_bzDecompressInit],
+		[],
+		[AC_MSG_ERROR([Could not find bzip2 library or headers])])
+    test x$BZIP2_PC = x && PC_LIBS="$PC_SHARED_LIBS $BZIP2_LIBS"
+    AC_DEFINE([HAVE_BZIP2], [1], [Built with bzip2 support])
 fi
+
 AC_SUBST(REQUIRES)
 AC_SUBST(PC_SHARED_LIBS)
 
