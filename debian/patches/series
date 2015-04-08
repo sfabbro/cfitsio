@@ -1,8 +1,0 @@
-01-pthread-mutex.patch
-02-system-cfortran.patch
-03-off_t.diff
-04-buildflags.diff
-05-system-zlib.patch
-06-fpack-funpack-dynamic-link.diff
-07-testprog-static-link.diff
-08-hurd.diff
