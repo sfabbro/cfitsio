@@ -2,4 +2,4 @@ dependencies:
   pre:
     - ./prepare.bash
   override:
-    - ./configure && make distcheck
+    - cd build; ./configure && make distcheck
