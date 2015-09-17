@@ -1,0 +1,5 @@
+dependencies:
+  pre:
+    - ./prepare.bash
+  override:
+    - ./configure && make distcheck
