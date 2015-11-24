@@ -107,10 +107,10 @@ TESTS = $(check_PROGRAMS)
 
 check-local: $(testprogs)
 	@total=0; failed=0; \
+	[ -e "$(top_builddir)"/testprog.tpt ] || \
+	cp -f "$(top_srcdir)"/testprog.tpt "$(top_builddir)"/ ; \
 	for i in $(testprogs); do \
 		echo "--- Testing $$i ---"; \
-		[ -e "$(top_builddir)"/testprog.tpt ] || \
-		cp -f "$(top_srcdir)"/testprog.tpt "$(top_builddir)"/ ; \
 		./$$i${EXEEXT} > my_$$i.out; \
 		diff "$(top_srcdir)"/$$i.out my_$$i.out; \
 		cmp $$i.fit "$(top_srcdir)"/$$i.std; \
