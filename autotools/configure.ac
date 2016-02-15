@@ -1,4 +1,4 @@
-AC_INIT([cfitsio], [3.370], [William.D.Pence@nasa.gov])
+AC_INIT([cfitsio], [3.38], [William.D.Pence@nasa.gov])
 
 AC_CONFIG_SRCDIR([fitscore.c])
 AC_CONFIG_HEADERS([config.h])
@@ -72,7 +72,7 @@ ifdef([LT_INIT],
 # Version number for libtool shared libraries. Libtool wants a string
 # of the form CURRENT:REVISION:AGE.
 # cfitsio upstream does not care much about revision and age just yet.
-SHARED_VERSION_INFO="2:0:0"
+SHARED_VERSION_INFO="4:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
 AC_ARG_ENABLE([threads],
