@@ -1,0 +1,73 @@
+Author: Sebastien Fabbro <bicatali@gentoo.org>
+Description: Add cpp macros at configure time
+
+--- cfitsio.orig/cfileio.c	2015-08-07 21:50:36.000000000 +0000
++++ cfitsio/cfileio.c	2016-02-19 18:17:16.990000000 +0000
+@@ -10,6 +10,11 @@
+ #include <ctype.h>
+ #include <errno.h>
+ #include <stddef.h>  /* apparently needed to define size_t */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #include "fitsio2.h"
+ #include "group.h"
+ 
+diff -Nur cfitsio.orig/drvrgsiftp.c cfitsio/drvrgsiftp.c
+--- cfitsio.orig/drvrgsiftp.c	2006-11-06 21:54:50.000000000 +0000
++++ cfitsio/drvrgsiftp.c	2016-02-19 18:17:16.990000000 +0000
+@@ -2,6 +2,10 @@
+ /*  This file, drvrgsiftp.c contains driver routines for gsiftp files. */
+ /*  Andrea Barisani <lcars@si.inaf.it>                                 */
+ /* Taffoni Giuliano <taffoni@oats.inaf.it>                             */
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #ifdef HAVE_NET_SERVICES
+ #ifdef HAVE_GSIFTP
+ 
+diff -Nur cfitsio.orig/drvrnet.c cfitsio/drvrnet.c
+--- cfitsio.orig/drvrnet.c	2014-08-19 20:51:37.000000000 +0000
++++ cfitsio/drvrnet.c	2016-02-19 18:17:16.990000000 +0000
+@@ -147,6 +147,9 @@
+ 
+    
+  */
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
+ 
+ #ifdef HAVE_NET_SERVICES
+ #include <string.h>
+diff -Nur cfitsio.orig/drvrsmem.c cfitsio/drvrsmem.c
+--- cfitsio.orig/drvrsmem.c	2014-08-19 20:52:22.000000000 +0000
++++ cfitsio/drvrsmem.c	2016-02-19 18:17:16.990000000 +0000
+@@ -12,6 +12,10 @@
+             no shmem segments remain, and last process terminates
+ */
+ 
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #ifdef HAVE_SHMEM_SERVICES
+ #include "fitsio2.h"                         /* drvrsmem.h is included by it */
+ 
+diff -Nur cfitsio.orig/fitscore.c cfitsio/fitscore.c
+--- cfitsio.orig/fitscore.c	2016-01-07 22:25:15.000000000 +0000
++++ cfitsio/fitscore.c	2016-02-19 18:18:00.710000000 +0000
+@@ -43,6 +43,11 @@
+ /* stddef.h is apparently needed to define size_t with some compilers ?? */
+ #include <stddef.h>
+ #include <locale.h>
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #include "fitsio2.h"
+ 
+ #define errmsgsiz 25

@@ -13,7 +13,7 @@ rm -f configure configure.in Makefile.in
 # apply patches if any
 for p in ../patches/*.patch; do
     echo ">> Applying $p"
-    patch -p0 < ${p}
+    patch -p1 < ${p}
 done
 # produce make files, compile, run unit tests, make tar ball
 autoreconf -vi && ./configure && make distcheck
