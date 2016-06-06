@@ -1,5 +1,0 @@
-dependencies:
-  pre:
-    - ./prepare.bash
-  override:
-    - cd cfitsio; ./configure && make distcheck

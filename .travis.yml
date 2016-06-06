@@ -1,0 +1,21 @@
+addons:
+  apt:
+    packages:
+      - automake
+      - libtool
+      - autoconf
+      - flex
+      - bison
+      - gfortran
+      - zlib1g-dev
+      - libbz2-dev
+
+compiler:
+  - gcc
+  - clang
+
+script:
+  - ./sync.bash
+
+install:
+  - ./build.bash
