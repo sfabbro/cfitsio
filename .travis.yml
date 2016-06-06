@@ -18,4 +18,5 @@ script:
   - ./sync.bash
 
 install:
+  - ./sync.bash  
   - ./build.bash
