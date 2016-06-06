@@ -72,7 +72,7 @@ ifdef([LT_INIT],
 # Version number for libtool shared libraries. Libtool wants a string
 # of the form CURRENT:REVISION:AGE.
 # cfitsio upstream does not care much about revision and age just yet.
-SHARED_VERSION_INFO="4:0:0"
+SHARED_VERSION_INFO="@SONAME@:0:0"
 AC_SUBST(SHARED_VERSION_INFO)
 
 AC_ARG_ENABLE([threads],

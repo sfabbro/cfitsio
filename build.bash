@@ -7,7 +7,11 @@ cp -r README.md CHANGES.md autotools/* cfitsio/
 
 pushd cfitsio
 version=$(awk '/CFITSIO_VERSION/ {print $3}' fitsio.h)
-sed -i -e "s/@VERSION@/${version}/" configure.ac
+soname=$(sed -n -e '/AC_SUBST(CFITSIO_SONAME/s/.*,\(.*\))/\1/p' configure.in)
+
+sed -e "s/@VERSION@/${version}/" \
+    -e "s/@SONAME@/${soname}/" \
+    -i configure.ac
 
 # remove upstream build system to avoid automake ambiguity
 rm -f configure configure.in Makefile.in
