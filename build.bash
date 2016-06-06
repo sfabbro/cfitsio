@@ -6,6 +6,8 @@ tar xf cfitsio_latest.tar.gz
 cp -r README.md CHANGES.md autotools/* cfitsio/
 
 pushd cfitsio
+version=$(awk '/CFITSIO_VERSION/ {print $3}' fitsio.h)
+sed -i -e "s/@VERSION@/${version}/" configure.ac
 
 # remove upstream build system to avoid automake ambiguity
 rm -f configure configure.in Makefile.in
