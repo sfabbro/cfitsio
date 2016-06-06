@@ -32,3 +32,5 @@ To see the list of all options to build cfitsio, run configure
 ```
 If you are interested in contributing to this re-packaging, see
 https://github.com/sfabbro/cfitsio, instructions on BUILD.md.
+
+[![Build Status](https://travis-ci.org/sfabbro/cfitsio.svg?branch=master)](https://travis-ci.org/sfabbro/cfitsio)
